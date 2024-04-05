@@ -11,7 +11,7 @@
                 <span>信息管理</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item index="/gruop">用户组管理</el-menu-item>
+                <el-menu-item index="/group">用户组管理</el-menu-item>
                 <el-menu-item index="/user">用户管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>

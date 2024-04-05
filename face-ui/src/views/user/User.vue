@@ -12,9 +12,9 @@
         <el-input class="input-select" placeholder="请输入用户账号" v-model="input_user_name" clearable >
         </el-input>
         <el-button type="warning">查询</el-button>
-<!-- 通过usergruopid查 -->
+<!-- 通过usergroupid查 -->
         <span class="text-sapn-select">用户组名字：</span>
-        <el-input class="input-select" placeholder="请输入组名字" v-model="input_gruop_id" clearable >
+        <el-input class="input-select" placeholder="请输入组名字" v-model="input_group_id" clearable >
         </el-input>
         <el-button type="warning">查询</el-button>
 <!-- 通过userphone查 -->
@@ -38,7 +38,7 @@
           <el-table-column prop="user_password" label="用户密码">
           </el-table-column>
 
-          <el-table-column prop="gruop_id" label="用户组名字">
+          <el-table-column prop="group_id" label="用户组名字">
           </el-table-column>
 
           <el-table-column prop="user_face_path" label="用户人脸">

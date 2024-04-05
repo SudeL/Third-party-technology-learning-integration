@@ -3,7 +3,7 @@
 
     <div style="margin-bottom: 15px;margin-top: 15px;">
       <span class="text-sapn-select">用户组名字：</span>
-      <el-input class="input-select" placeholder="请输入组名字" v-model="input_gruop_id" clearable>
+      <el-input class="input-select" placeholder="请输入组名字" v-model="input_group_id" clearable>
       </el-input>
       <el-button type="warning">查询</el-button>
       <br >
@@ -14,7 +14,7 @@
       <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="id" label="ID">
         </el-table-column>
-        <el-table-column prop="gruop_id" label="用户组名字">
+        <el-table-column prop="group_id" label="用户组名字">
         </el-table-column>
         <el-table-column label="操作">
           <el-button type="primary">编辑</el-button>
@@ -36,7 +36,7 @@
 export default {
   data() {
     return {
-      input_gruop_id: ''
+      input_group_id: ''
     }
   }
 }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/login.vue'
 import PersonalView from '../views/PersonalView.vue'
-import Gruop from '../views/Gruop/Gruop.vue'
+import group from '../views/group/Group.vue'
 import User from '../views/user/User.vue'
 
 Vue.use(Router)
@@ -13,17 +13,17 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
-    }, 
+    },
     {
       path: '/views/PersonalView',
       name: 'PersonalView',
       component: PersonalView
-    }, 
+    },
     {
-      path: '/gruop',
-      name: 'gruop',
-      component: Gruop
-    }, 
+      path: '/group',
+      name: 'group',
+      component: group
+    },
     {
       path: '/user',
       name: 'user',
