@@ -1,5 +1,6 @@
 package com.jyb.group.controller;
 
+import com.jyb.common.Result;
 import com.jyb.group.domain.Group;
 import com.jyb.group.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import java.util.List;
 public class GroupController {
 	@Autowired
 	GroupService groupService;
-
-
+	
 	//获取全部group表数据
 	@GetMapping("/getGroupList")
-	public List<Group> getGroupList(){
-		return groupService.getGroupList();
+	public Result getGroupList() {
+		List<Group> groupList = groupService.getGroupList();
+		return Result.seccess(groupList);
 	}
 }
