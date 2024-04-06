@@ -18,4 +18,9 @@ public class GroupService {
 	public List<Group> getGroupList() {
 		return groupInfoMapper.getGroupList();
 	}
+
+	//添加用户组
+	public boolean addGroupList(String group_id){
+		return  groupInfoMapper.addGroupList(group_id);
+	}
 }
