@@ -1,8 +1,8 @@
-package com.jyb.group.controller;
+package com.jyb.user.controller;
 
 import com.jyb.common.Result;
-import com.jyb.group.domain.Group;
-import com.jyb.group.service.GroupService;
+import com.jyb.user.domain.User;
+import com.jyb.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +13,15 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/group")
-public class GroupController {
+@RequestMapping("/user")
+public class UserController {
 	@Autowired
-	GroupService groupService;
+	UserService userService;
 
 	//获取全部group表数据
-	@GetMapping("/getGroupList")
-	public Result getGroupList() {
-		List<Group> groupList = groupService.getGroupList();
+	@GetMapping("/getUserList")
+	public Result getUserList() {
+		List<User> groupList = userService.getUserList();
 		return Result.seccess(groupList);
 	}
 }
