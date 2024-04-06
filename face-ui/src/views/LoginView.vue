@@ -74,8 +74,23 @@ export default {
         if (valid) {
           console.log('表单提交', this.form);
           // 这里可以添加表单提交逻辑
+
           if (this.form.register) {
             // 注册逻辑
+            request.post("/user/reg", this.form).then(
+              res => {
+                if (res.code === '0') {
+                  // 调用成功         
+                  this.$message({
+                    message: '注册成功',
+                    type: 'success'
+                  });
+                  console.log(res)
+                } else {
+                  //调用失败
+                }
+              }
+            )
           } else {
             // 登录逻辑
             request.post("/user/login", this.form).then(res => {
@@ -89,6 +104,7 @@ export default {
             }
             )
           }
+
         } else {
           console.log('表单验证失败');
         }

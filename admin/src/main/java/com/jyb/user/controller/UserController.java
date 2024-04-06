@@ -27,4 +27,11 @@ public class UserController {
 		List<User> list = userService.Login(user);
 		return Result.success(list);
 	}
+	//登录
+	@PostMapping("/reg")
+	public Result reg(@RequestBody User user) {
+		System.out.println(user);
+		Result list = userService.reg(user);
+		return list;
+	}
 }
