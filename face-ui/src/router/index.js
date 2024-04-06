@@ -6,6 +6,7 @@ import Group from '../views/group/Group.vue'
 import User from '../views/user/User.vue'
 import HomeView from '../views/HomeView.vue'
 import PhoneLoginView from '../views/PhoneLoginView.vue'
+import FaceLoginView from '../views/FaceLoginView.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -19,6 +20,11 @@ export default new Router({
       path: '/PhoneLoginView',
       name: 'PhoneLoginView',
       component: PhoneLoginView
+    },
+    {
+      path: '/FaceLoginView',
+      name: 'FaceLoginView',
+      component: FaceLoginView
     },
     {
       path: '/HomeView',

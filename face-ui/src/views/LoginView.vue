@@ -36,6 +36,9 @@
         <el-form-item>
           <el-button type="default" @click="PhoneLong()">验证码登录</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button type="default" @click="FaceLong()">人脸登录</el-button>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -72,6 +75,9 @@ export default {
     }
   },
   methods: {
+    FaceLong(){
+      this.$router.push('/FaceLoginView')
+    },
     PhoneLong(){
       this.$router.push('/PhoneLoginView')
     },
