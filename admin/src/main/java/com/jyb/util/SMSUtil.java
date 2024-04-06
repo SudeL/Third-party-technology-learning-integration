@@ -9,7 +9,6 @@
 //
 //	public static com.aliyun.dysmsapi20170525.Client createClient() throws Exception {
 //		com.aliyun.teaopenapi.models.Config config = new com.aliyun.teaopenapi.models.Config()
-////密钥
 //
 //		config.endpoint = "dysmsapi.aliyuncs.com";
 //		return new com.aliyun.dysmsapi20170525.Client(config);
