@@ -1,5 +1,6 @@
 package com.jyb.user.service;
 
+import com.jyb.common.Result;
 import com.jyb.group.domain.Group;
 import com.jyb.user.domain.User;
 import com.jyb.user.mapper.UserInfoMapper;
@@ -16,5 +17,14 @@ public class UserService {
 	//获取所有用户信息
 	public List<User> getUserList() {
 		return userInfoMapper.getUSerList();
+	}
+//登录方法
+	public List<User> Login(User user){
+		return userInfoMapper.Login(user);
+	};
+//注册
+	public Result reg(User user) {
+		userInfoMapper.reg(user);
+		return  Result.success();
 	}
 }
