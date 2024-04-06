@@ -16,7 +16,12 @@ import java.util.List;
 @Mapper
 public interface UserInfoMapper
 {
-//	获取全部的group信息
+//	获取全部的user信息
 	@Select("select * from user_info")
 	List<User> getUSerList();
+
+	@Select("select * from  user_info where  user_name = #{user_name} and user_password = #{user_password}")
+	List<User> Login(User user);
+
+
 }

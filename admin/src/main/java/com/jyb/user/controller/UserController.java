@@ -4,10 +4,7 @@ import com.jyb.common.Result;
 import com.jyb.user.domain.User;
 import com.jyb.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +20,11 @@ public class UserController {
 	public Result getUserList() {
 		List<User> groupList = userService.getUserList();
 		return Result.success(groupList);
+	}
+//登录
+	@PostMapping("/login")
+	public Result login(@RequestBody User user) {
+		List<User> list = userService.Login(user);
+		return Result.success(list);
 	}
 }

@@ -28,35 +28,17 @@ export default{
 </script>
 
 <style>
-/* 设置el-header的背景颜色为深灰色 */
+/* 设置顶部Header的样式，颜色略深 */
 .el-header {
-  background-color: dimgray;
-  /* 可以添加其他样式，如内边距等 */
-  padding: 10px;
+  background-color: #4a4a4a; /* 选择一个略深的颜色 */
+  color: white; /* 文字颜色为白色 */
 }
 
-/* 设置el-aside的背景颜色为浅蓝色 */
-.el-aside {
-  background-color: #f0f8ff; /* 这是一个比aliceblue稍深一点的颜色 */
-  /* 确保el-aside不会超出视口高度 */
-  height: 100%;
-}
-
-/* 设置el-main的样式 */
+/* 设置main部分的样式 */
 .el-main {
-  /* background-color: bisque; */
-  /* 可以添加其他样式，如内边距等 */
+  background-color: #fff; /* 背景颜色为白色 */
   padding: 20px;
-}
-
-/* 设置el-container的高度自适应浏览器的高度 */
-.el-container {
-  height: 100%;
-}
-
-/* 确保整个应用的高度也是自适应的 */
-html, body {
-  height: 100%;
-  margin: 0;
+  height: calc(100vh - 60px); /* 减去Header的高度，使得Main占满剩余空间 */
+  overflow-y: auto; /* 添加垂直滚动条 */
 }
 </style>

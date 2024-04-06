@@ -17,4 +17,8 @@ public class UserService {
 	public List<User> getUserList() {
 		return userInfoMapper.getUSerList();
 	}
+//登录方法
+	public List<User> Login(User user){
+		return userInfoMapper.Login(user);
+	};
 }
