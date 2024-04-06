@@ -21,6 +21,21 @@ public class GroupService {
 
 	//添加用户组
 	public boolean addGroupList(String group_id){
+		//添加数据库用户组
 		return  groupInfoMapper.addGroupList(group_id);
 	}
+
+	//修改用户组
+	public boolean updateGroupList(Group group){
+		//修改数据库用户组
+		return groupInfoMapper.updateGroupList(group);
+	}
+
+	//删除用户组
+	public boolean deleteGroupList(Integer id){
+		//删除数据库用户组
+		return  groupInfoMapper.deleteGroupList(id);
+	}
+
+
 }

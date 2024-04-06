@@ -12,20 +12,20 @@
       <el-button type="warning">查询</el-button>
       <br />
       <!-- Form -->
-      <el-button type="primary" @click="dialogFormVisible = true"
-        >新增</el-button
+      <el-button type="primary" @click="addGroupList()">新增</el-button>
+      <el-dialog
+        title="用户组操作"
+        :visible.sync="dialogFormVisible"
+        width="30%"
       >
-      <el-dialog title="添加用户组" :visible.sync="dialogFormVisible" width="30%">
-        <el-form :model="form" >
-          <el-form-item label="请输入组名" >
+        <el-form :model="form">
+          <el-form-item label="请输入组名">
             <el-input v-model="form.group_id" autocomplete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addGroupList"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="submit()">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -35,8 +35,12 @@
         <el-table-column prop="id" label="ID"> </el-table-column>
         <el-table-column prop="group_id" label="用户组名字"> </el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary">编辑</el-button>
-          <el-button type="danger">删除</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" @click="editGroupList(scope.row)">编辑</el-button>
+            <el-popconfirm title="确定删除吗？" @confirm="delGroupList(scope.row.id)">
+              <el-button type="danger" slot="reference">删除</el-button>
+            </el-popconfirm>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -55,10 +59,8 @@ export default {
   data() {
     return {
       input_group_id: "",
-      dialogFormVisible:false,
-      form:{
-        group_id:""
-      },
+      dialogFormVisible: false,
+      form: {},
       tableData: [],
     };
   },
@@ -78,22 +80,56 @@ export default {
       });
     },
 
-    addGroupList(){
-      this.dialogFormVisible=false,
-      request.post("/group/addGroupList",this.form).then((res) => {
+    //添加数据库用户组
+    addGroupList() {
+      this.form = {};
+      this.dialogFormVisible = true;
+    },
+
+    //修改数据库用户组
+    editGroupList(obj) {
+      (this.form = obj), (this.dialogFormVisible = true);
+    },
+
+    //删除数据库用户组
+    delGroupList(id) {
+      console.log(111)
+      request.post("/group/deleteGroupList/"+id).then((res) => {
         if (res.code === "0") {
-          location.reload()
           // 调用成功
           this.$message({
-            type:"success",
-            message:"添加成功",
-          })
+            type: "success",
+            message: "删除成功",
+          });
+          this.dialogFormVisible = false;
+          this.selectGroupList();
         } else {
           //调用失败
           this.$message({
-            type:"info",
-            message:"添加失败",
-          })
+            type: "error",
+            message: "删除失败",
+          });
+        }
+      });
+    },
+
+    //添加表单
+    submit() {
+      request.post("/group/changeGroupList", this.form).then((res) => {
+        if (res.code === "0") {
+          // 调用成功
+          this.$message({
+            type: "success",
+            message: "操作成功",
+          });
+          this.dialogFormVisible = false;
+          this.selectGroupList();
+        } else {
+          //调用失败
+          this.$message({
+            type: "error",
+            message: "操作失败",
+          });
         }
       });
     },
