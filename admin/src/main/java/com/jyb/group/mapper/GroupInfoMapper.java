@@ -1,6 +1,7 @@
 package com.jyb.group.mapper;
 
 import com.jyb.group.domain.Group;
+import com.jyb.group.domain.Params;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,7 @@ import java.util.List;
 @Mapper
 public interface GroupInfoMapper {
 //	获取全部的group信息
-	@Select("select * from group_info")
-	List<Group> getGroupList();
+	List<Group> getGroupList(@Param("params") Params params);
 
 
 	//添加数据库用户组

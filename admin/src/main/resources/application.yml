@@ -52,3 +52,11 @@ spring:
         url-pattern: "/druid/*"
         #这里配true才能访问监控页面！
         enabled: true
+    main:
+     allow-circular-reference:true
+# 分页
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
