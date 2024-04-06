@@ -5,14 +5,15 @@
       <el-input
         class="input-select"
         placeholder="请输入组名字"
-        v-model="input_group_id"
+        v-model="params.group_id"
         clearable
       >
       </el-input>
-      <el-button type="warning">查询</el-button>
+      <el-button type="warning" @click="selectGroupList()">查询</el-button>
+      <el-button type="warning" @click="reset()">清空</el-button>
+      <el-button type="primary" @click="addGroupList()">新增</el-button>
       <br />
       <!-- Form -->
-      <el-button type="primary" @click="addGroupList()">新增</el-button>
       <el-dialog
         title="用户组操作"
         :visible.sync="dialogFormVisible"
@@ -36,8 +37,13 @@
         <el-table-column prop="group_id" label="用户组名字"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" @click="editGroupList(scope.row)">编辑</el-button>
-            <el-popconfirm title="确定删除吗？" @confirm="delGroupList(scope.row.id)">
+            <el-button type="primary" @click="editGroupList(scope.row)"
+              >编辑</el-button
+            >
+            <el-popconfirm
+              title="确定删除吗？"
+              @confirm="delGroupList(scope.row.id)"
+            >
               <el-button type="danger" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
@@ -45,11 +51,18 @@
       </el-table>
     </div>
 
-    <!-- <div>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1" :page-size="100" layout="total, prev, pager, next" :total="1000">
+    <div style="margin-top: 10px">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="params.pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="params.pageSize"
+        layout="total,sizes, prev, pager, next"
+        :total="total"
+      >
       </el-pagination>
-    </div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -61,23 +74,53 @@ export default {
       input_group_id: "",
       dialogFormVisible: false,
       form: {},
+      params: {
+        group_id: "",
+        pageNum: 1,
+        pageSize: 5,
+      },
       tableData: [],
+      total: 0,
     };
   },
+  //初始化数据
   created() {
     this.selectGroupList();
   },
   methods: {
     // 查询所有的用户组信息
     selectGroupList() {
-      request.get("/group/getGroupList").then((res) => {
-        if (res.code === "0") {
-          // 调用成功
-          this.tableData = res.data;
-        } else {
-          //调用失败
-        }
-      });
+      request
+        .get("/group/getGroupList", { params: this.params })
+        .then((res) => {
+          if (res.code === "0") {
+            // 调用成功
+            this.tableData = res.data.list;
+            this.total = res.data.total;
+          } else {
+            //调用失败
+          }
+        });
+    },
+
+    reset() {
+      this.params = {
+        group_id: "",
+        pageNum: 1,
+        pageSize: 5,
+      };
+      this.selectGroupList();
+    },
+
+    //显示多少条
+    handleSizeChange(pageSize) {
+      this.params.pageSize = pageSize;
+      this.selectGroupList();
+    },
+    //显示当前页
+    handleCurrentChange(pageNUm) {
+      this.params.pageNum = pageNUm;
+      this.selectGroupList();
     },
 
     //添加数据库用户组
@@ -93,8 +136,8 @@ export default {
 
     //删除数据库用户组
     delGroupList(id) {
-      console.log(111)
-      request.post("/group/deleteGroupList/"+id).then((res) => {
+      console.log(111);
+      request.post("/group/deleteGroupList/" + id).then((res) => {
         if (res.code === "0") {
           // 调用成功
           this.$message({

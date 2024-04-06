@@ -1,8 +1,12 @@
 package com.jyb.group.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jyb.common.Result;
 import com.jyb.group.domain.Group;
+import com.jyb.group.domain.Params;
 import com.jyb.group.service.GroupService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +21,9 @@ public class GroupController {
 
 	//获取全部group表数据
 	@GetMapping("/getGroupList")
-	public Result getGroupList() {
-		//开启分页查询
-		List<Group> groupList = groupService.getGroupList();
-		return Result.success(groupList);
+	public Result getGroupList(Params params) {
+		PageInfo<Group> info = groupService.getGroupList(params);
+		return Result.success(info);
 	}
 
 	//添加或修改group

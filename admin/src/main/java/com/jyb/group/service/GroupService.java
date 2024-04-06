@@ -1,11 +1,12 @@
 package com.jyb.group.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jyb.group.domain.Group;
+import com.jyb.group.domain.Params;
 import com.jyb.group.mapper.GroupInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -15,8 +16,11 @@ public class GroupService {
 	GroupInfoMapper groupInfoMapper;
 
 //获取所有用户组信息
-	public List<Group> getGroupList() {
-		return groupInfoMapper.getGroupList();
+	public PageInfo<Group> getGroupList(Params params) {
+		//开启分页查询
+		PageHelper.startPage(params.getPageNum(),params.getPageSize());
+		List<Group> list = groupInfoMapper.getGroupList(params);
+		return PageInfo.of(list);
 	}
 
 	//添加用户组
