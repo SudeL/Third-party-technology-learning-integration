@@ -22,6 +22,6 @@ public class UserController {
 	@GetMapping("/getUserList")
 	public Result getUserList() {
 		List<User> groupList = userService.getUserList();
-		return Result.seccess(groupList);
+		return Result.success(groupList);
 	}
 }

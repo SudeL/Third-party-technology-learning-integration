@@ -8,7 +8,7 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:80,端口号修改在config文件夹中的index.js
 npm run dev
 
 # build for production with minification

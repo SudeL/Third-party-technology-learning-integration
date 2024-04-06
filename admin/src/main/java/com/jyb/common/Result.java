@@ -18,14 +18,14 @@ public class Result {
 //	返回的信息
 	private Object data;
 //定义返回调用成功状态的方法（不含数据）
-	public static Result seccess(){
+	public static Result success(){
 		Result result = new Result();
 		result.setCode(SUCCESS);
 		return result;
 	}
 
 	//定义返回调用成功状态的方法（含数据）
-	public static Result seccess(Object object){
+	public static Result success(Object object){
 		Result result = new Result();
 		result.setCode(SUCCESS);
 		result.setData(object);

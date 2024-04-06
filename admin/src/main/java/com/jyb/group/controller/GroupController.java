@@ -22,6 +22,6 @@ public class GroupController {
 	@GetMapping("/getGroupList")
 	public Result getGroupList() {
 		List<Group> groupList = groupService.getGroupList();
-		return Result.seccess(groupList);
+		return Result.success(groupList);
 	}
 }
