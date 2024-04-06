@@ -6,7 +6,7 @@
       <el-input class="input-select" placeholder="请输入组名字" v-model="input_group_id" clearable>
       </el-input>
       <el-button type="warning">查询</el-button>
-      <br >
+      <br>
       <el-button type="primary" style="margin-top: 15px;">新增</el-button>
     </div>
 
@@ -23,20 +23,40 @@
       </el-table>
     </div>
 
-    <div>
+    <!-- <div>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
         :current-page.sync="currentPage1" :page-size="100" layout="total, prev, pager, next" :total="1000">
       </el-pagination>
-    </div>
+    </div> -->
 
   </div>
 
 </template>
 <script>
+import request from '../../util/request';
+
 export default {
   data() {
     return {
-      input_group_id: ''
+      input_group_id: '',
+      tableData: []
+    }
+  },
+  created() {
+    this.selectGroupList();
+  },
+  methods: {
+    // 查询所有的用户组信息
+    selectGroupList() {
+      request.get("/group/getGroupList").then(res => {
+        if (res.code === '0') {
+          // 调用成功
+          this.tableData = res.data;
+        } else {
+          //调用失败
+        }
+      }
+      )
     }
   }
 }
