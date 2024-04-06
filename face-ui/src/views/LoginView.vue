@@ -33,6 +33,9 @@
         <el-form-item>
           <el-button type="default" @click="switchForm">切换</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button type="default" @click="PhoneLong()">验证码登录</el-button>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -69,6 +72,9 @@ export default {
     }
   },
   methods: {
+    PhoneLong(){
+      this.$router.push('/PhoneLoginView')
+    },
     submitForm() {
       this.$refs.form.validate((valid) => {
         if (valid) {
