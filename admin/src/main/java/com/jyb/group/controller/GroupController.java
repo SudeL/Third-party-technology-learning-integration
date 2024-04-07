@@ -1,18 +1,15 @@
 package com.jyb.group.controller;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.jyb.common.Result;
 import com.jyb.group.domain.Group;
 import com.jyb.group.domain.Params;
+import com.jyb.group.domain.Vo.FaceLoginVo;
 import com.jyb.group.service.GroupService;
 import com.jyb.util.FaceUtil;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -30,11 +27,11 @@ public class GroupController {
 
 	//添加或修改group
 	@PostMapping("/changeGroupList")
-	public Result changeGroupList(@RequestBody Group group){
-		if (group.getId()==null){
+	public Result changeGroupList(@RequestBody Group group) {
+		if (group.getId() == null) {
 			//添加数据库用户组
 			groupService.addGroupList(group.getGroup_id());
-		}else {
+		} else {
 			//修改数据库用户组
 			groupService.updateGroupList(group);
 		}
@@ -43,7 +40,7 @@ public class GroupController {
 
 	//删除group
 	@PostMapping("/deleteGroupList/{id}")
-	public Result deleteGroupList(@PathVariable Integer id){
+	public Result deleteGroupList(@PathVariable Integer id) {
 		//删除数据库用户组
 		boolean b = groupService.deleteGroupList(id);
 		return Result.success(b);
@@ -51,10 +48,37 @@ public class GroupController {
 
 	//获取用户组
 	@PostMapping("/getGroupID")
-	public Result getGroupID(){
-		System.out.println("调用了获取用户组方法 ");
+	public Result getGroupID() {
 		String s = FaceUtil.queryGroup();
-		System.out.println(s);
 		return Result.success(s);
+	}
+
+	//	人脸认证登录
+	@PostMapping("/FaceLogin")
+	public Result FaceLogin(@RequestBody FaceLoginVo faceLoginVo) {
+		String s = FaceUtil.compareFace(faceLoginVo.getGroup_id(), faceLoginVo.getBase64());
+		System.out.println(s);
+		Gson gson = new Gson();
+		// 调用Gson的String toJson(Object)方法将Bean转换为json字符串
+		Object pJson = gson.toJson(s);
+		return Result.success(s);
+
+
+//	{   //调用结果如下
+//		"error_code": 0,
+//			"error_msg": "SUCCESS",
+//			"log_id": 2120731112,
+//			"timestamp": 1712471720,
+//			"cached": 0,
+//			"result": {
+//		        "face_token": "e818335f15714594bf790152bbb08135",
+//				"user_list": [{
+//			    "group_id": "dome1",
+//				"user_id": "lht",
+//				"user_info": "",
+//				"score": 99.999893188477
+//		}]
+//	}
+//	}
 	}
 }

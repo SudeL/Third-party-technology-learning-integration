@@ -75,10 +75,10 @@ export default {
     }
   },
   methods: {
-    FaceLong(){
+    FaceLong() {
       this.$router.push('/FaceLoginView')
     },
-    PhoneLong(){
+    PhoneLong() {
       this.$router.push('/PhoneLoginView')
     },
     submitForm() {
@@ -104,17 +104,18 @@ export default {
               }
             )
           } else {
-            // 登录逻辑
+            // 登录逻辑  
             request.post("/user/login", this.form).then(res => {
               if (res.code === '0') {
-                // 调用成功
+                // 调用成功  
                 console.log(res);
-                this.$router.push('/HomeView')
+                // 存储数据到 sessionStorage  
+                sessionStorage.setItem('userData', JSON.stringify(res.data));
+                this.$router.push('/HomeView');
               } else {
-                //调用失败
+                // 调用失败  
               }
-            }
-            )
+            });
           }
 
         } else {

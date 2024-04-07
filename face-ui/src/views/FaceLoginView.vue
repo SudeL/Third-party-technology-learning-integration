@@ -1,17 +1,28 @@
 <template>
+    <!-- 页面模板开始 -->
     <div class="video-container">
+        <!-- 视频容器 -->
         <div class="video-wrapper">
+            <!-- 视频包装器 -->
             <video ref="video" class="video-element" autoplay playsinline></video>
+            <!-- 视频元素 -->
             <canvas ref="canvas" class="canvas-element"></canvas>
+            <!-- 画布元素 -->
         </div>
         <div class="button-wrapper">
+            <!-- 按钮包装器 -->
             选择用户组:
+            <!-- 选择用户组标签 -->
             <el-select v-model="group_id" placeholder="请选择">
+                <!-- Element UI 下拉选择器 -->
                 <el-option v-for="(item, index) in group_id_arr" :key="index" :label="item" :value="item">
                 </el-option>
             </el-select>
+            <!-- Element UI 选项 -->
             <el-button @click="startCamera">开启摄像头</el-button>
+            <!-- Element UI 按钮，点击触发 startCamera 方法 -->
             <el-button @click="stopCamera">停止摄像头</el-button>
+            <!-- Element UI 按钮，点击触发 stopCamera 方法 -->
         </div>
     </div>
 </template>
@@ -21,15 +32,19 @@ import request from '../util/request'
 export default {
     data() {
         return {
+            par: {
+                base64: '',
+                group_id: ''
+            },
+            index: 0,
             stream: null,
             intervalId: null,
-            group_id_arr: {},//后台来的用户组数据
+            group_id_arr: [],//后台来的用户组数据
             group_id: ''//前台选中的数据
         };
     },
     created() {
         this.getGroupID();
-
     },
     methods: {
         //后台获取用户组
@@ -62,21 +77,71 @@ export default {
             }
         },
         startCapturing() {
-            this.intervalId = setInterval(this.capturePhoto, 5000);
+            this.intervalId = setInterval(this.capturePhoto, 1000);
         },
         capturePhoto() {
-            const video = this.$refs.video;
-            const canvas = this.$refs.canvas;
-            const context = canvas.getContext("2d");
+            console.log(this.index);
+            if (this.index > 5) {
+                console.log("登录超时");
+                if (this.stream) {
+                    this.stream.getTracks().forEach((track) => track.stop());
+                    this.stream = null;
+                }
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
+                this.index = 0;
+            }
+            this.index = this.index + 1;
 
-            // 绘制视频帧到canvas上  
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            if (this.group_id === '') {
+                console.log('未选择分组');
+                if (this.stream) {
+                    this.stream.getTracks().forEach((track) => track.stop());
+                    this.stream = null;
+                }
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
+                this.index = 0;
+            } else {
 
-            // 将canvas转换为Base64  
-            const base64 = canvas.toDataURL("image/jpeg");
+                const video = this.$refs.video;
+                const canvas = this.$refs.canvas;
+                const context = canvas.getContext("2d");
 
-            // 在这里你可以添加发送Base64到后台的代码  
-            console.log("捕获的图片Base64：", base64);
+                // 绘制视频帧到canvas上  
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // 将canvas转换为Base64  
+                const base64 = canvas.toDataURL("image/jpeg");
+
+                // 在这里你可以添加发送Base64到后台的代码 
+                this.par.base64 = base64
+                this.par.group_id = this.group_id
+                request.post("/group/FaceLogin", this.par).then((res) => {
+                    if (res.code === "0") {
+                        // 调用成功
+                        console.log(res);
+                        let jsonData = JSON.parse(res.data);
+                        // 访问user_id和score  
+                        if (jsonData.result && jsonData.result.user_list && jsonData.result.user_list.length > 0) {
+                            let userId = jsonData.result.user_list[0].user_id;
+                            let score = jsonData.result.user_list[0].score;
+                        } else {
+                            console.log("No user_list found in the JSON data.");
+                        }
+                        if (score > 90) {
+                            this.$router.push('/HomeView')
+                        }
+                    } else {
+                        //调用失败
+                    }
+                });
+            }
+
         },
         setCanvasSize() {
             const video = this.$refs.video;
@@ -94,6 +159,7 @@ export default {
                 clearInterval(this.intervalId);
                 this.intervalId = null;
             }
+            this.index = 0;
         },
     },
 
