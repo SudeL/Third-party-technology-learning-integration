@@ -1,6 +1,8 @@
 package com.jyb.user.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.jyb.common.Result;
+import com.jyb.user.domain.UserParams;
 import com.jyb.user.domain.User;
 import com.jyb.user.domain.Vo.PhoneLoginVo;
 import com.jyb.user.service.UserService;
@@ -19,10 +21,32 @@ public class UserController {
 
 	//获取全部group表数据
 	@GetMapping("/getUserList")
-	public Result getUserList() {
-		List<User> groupList = userService.getUserList();
-		return Result.success(groupList);
+	public Result getUserList(UserParams params) {
+		PageInfo<User> userList = userService.getUserList(params);
+		return Result.success(userList);
 	}
+
+	//添加或修改user
+	@PostMapping("/changeUserList")
+	public Result changeUserList(@RequestBody User user){
+		if (user.getId()==null){
+			//添加数据库用户
+			userService.addUserList(user);
+		}else {
+			//修改数据库用户
+			userService.updateUserList(user);
+		}
+		return Result.success();
+	}
+
+
+	//删除数据库用户
+	@PostMapping("/deleteUserList/{id}")
+	public Result deleteUserList(@PathVariable Integer id){
+		boolean b = userService.deleteUserList(id);
+		return Result.success(b);
+	}
+
 //登录
 	@PostMapping("/login")
 	public Result login(@RequestBody User user) {
@@ -49,4 +73,5 @@ public class UserController {
 		PhoneLoginVo phoneLoginVo1 = new PhoneLoginVo(phoneLoginVo.getUser_phone(), code,s);
 		return Result.success(phoneLoginVo1);
 	}
+
 }

@@ -3,7 +3,7 @@ package com.jyb.group.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jyb.group.domain.Group;
-import com.jyb.group.domain.Params;
+import com.jyb.group.domain.GroupParams;
 import com.jyb.group.mapper.GroupInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class GroupService {
 	GroupInfoMapper groupInfoMapper;
 
 //获取所有用户组信息
-	public PageInfo<Group> getGroupList(Params params) {
+	public PageInfo<Group> getGroupList(GroupParams params) {
 		//开启分页查询
 		PageHelper.startPage(params.getPageNum(),params.getPageSize());
 		List<Group> list = groupInfoMapper.getGroupList(params);

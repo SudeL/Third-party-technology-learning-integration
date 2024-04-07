@@ -4,7 +4,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jyb.user.mapper.UserInfoMapper">
 
-
+    <select id="getUSerList" resultType="User">
+        select * from user_info
+        <where>
+            <if test="params != null and params.user_id != null and params.user_id != '' ">
+                and user_id like concat("%",#{params.user_id},"%")
+            </if>
+            <if test="params != null and params.user_name != null and params.user_name != '' ">
+                and user_name like concat("%",#{params.user_name},"%")
+            </if>
+            <if test="params != null and params.user_group_id != null and params.user_group_id != '' ">
+                and user_group_id like concat("%",#{params.user_group_id},"%")
+            </if>
+            <if test="params != null and params.user_phone != null and params.user_phone != '' ">
+                and user_phone like concat("%",#{params.user_phone},"%")
+            </if>
+        </where>
+    </select>
 
 
 </mapper>

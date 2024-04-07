@@ -136,7 +136,6 @@ export default {
 
     //删除数据库用户组
     delGroupList(id) {
-      console.log(111);
       request.post("/group/deleteGroupList/" + id).then((res) => {
         if (res.code === "0") {
           // 调用成功

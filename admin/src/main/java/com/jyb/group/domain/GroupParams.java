@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Params {
+public class GroupParams {
     private String group_id;
     private Integer pageNum;
     private Integer pageSize;

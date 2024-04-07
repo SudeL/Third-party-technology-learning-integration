@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-header>Header</el-header>
+        <el-header><h1>用户管理系统</h1></el-header>
         <el-container>
             <!-- 左边导航栏 -->
             <el-aside width="250px" style="background-color: aliceblue; overflow: hidden;">
@@ -32,13 +32,16 @@ export default{
 .el-header {
   background-color: #4a4a4a; /* 选择一个略深的颜色 */
   color: white; /* 文字颜色为白色 */
+  text-align: center;
+  width: 100%;
 }
+
 
 /* 设置main部分的样式 */
 .el-main {
   background-color: #fff; /* 背景颜色为白色 */
   padding: 20px;
-  height: calc(100vh - 60px); /* 减去Header的高度，使得Main占满剩余空间 */
+  height: calc(100vh - 80px); /* 减去Header的高度，使得Main占满剩余空间 */
   overflow-y: auto; /* 添加垂直滚动条 */
 }
 </style>

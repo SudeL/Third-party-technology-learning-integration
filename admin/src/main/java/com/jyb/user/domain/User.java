@@ -33,7 +33,7 @@ public class User {
 	private String user_face_path;
 
 	@Column(name = "user_isadmin")
-	private String user_isadnmin;
+	private String user_isadmin;
 
 	@Column(name = "user_phone")
 	private String user_phone;

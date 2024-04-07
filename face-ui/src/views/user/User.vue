@@ -4,23 +4,44 @@
     <div style="margin-bottom: 15px;margin-top: 15px;">
       <!-- 通过userId查 -->
       <span class="text-sapn-select">用户id：</span>
-      <el-input class="input-select" placeholder="请输入用户id" v-model="input_user_id" clearable>
+      <el-input class="input-select" placeholder="请输入用户id" v-model="params.user_id" clearable>
       </el-input>
       <!-- 通过username查 -->
       <span class="text-sapn-select">用户账号：</span>
-      <el-input class="input-select" placeholder="请输入用户账号" v-model="input_user_name" clearable>
+      <el-input class="input-select" placeholder="请输入用户账号" v-model="params.user_name" clearable>
       </el-input>
-      <!-- 通过usergroupid查 -->
+      <!-- 通过userUserid查 -->
       <span class="text-sapn-select">用户组名字：</span>
-      <el-input class="input-select" placeholder="请输入组名字" v-model="input_group_id" clearable>
+      <el-input class="input-select" placeholder="请输入组名字" v-model="params.user_User_id" clearable>
       </el-input>
       <!-- 通过userphone查 -->
       <span class="text-sapn-select">用户手机号：</span>
-      <el-input class="input-select" placeholder="请输入用户手机号" v-model="input_user_phone" clearable>
+      <el-input class="input-select" placeholder="请输入用户手机号" v-model="params.user_phone" clearable>
       </el-input>
-      <el-button type="warning">查询</el-button>
-      <br>
-      <el-button type="primary" style="margin-top: 15px;">新增</el-button>
+      <br><br>
+      <el-button type="warning" @click="selectUserList()">查询</el-button>
+      <el-button type="warning" @click="reset()">清空</el-button>
+      <el-button type="primary" @click="addUserList()">新增</el-button>
+      <br><br>
+            <!-- Form -->
+            <el-dialog
+        title="用户组操作"
+        :visible.sync="dialogFormVisible"
+        width="30%"
+      >
+        <el-form :model="form">
+          <el-form-item label="账号">
+            <el-input v-model="form.user_name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input v-model="form.user_password" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="submit()">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
 
     <div>
@@ -32,31 +53,50 @@
         <el-table-column prop="user_id" label="用户id">
         </el-table-column>
 
+        <el-table-column prop="user_name" label="用户账号">
+        </el-table-column>
+
         <el-table-column prop="user_password" label="用户密码">
         </el-table-column>
 
-        <el-table-column prop="user_group_id" label="用户组名字">
+        <el-table-column prop="user_User_id" label="用户组名字">
         </el-table-column>
 
         <el-table-column prop="user_face_path" label="用户人脸">
         </el-table-column>
 
-        <el-table-column prop="user_isandmin" label="用户权限">
+        <el-table-column prop="user_isadmin" label="用户权限">
         </el-table-column>
 
         <el-table-column prop="user_phone" label="用户手机号">
         </el-table-column>
 
         <el-table-column label="操作">
-          <el-button type="primary">编辑</el-button>
-          <el-button type="danger">删除</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" @click="editUserList(scope.row)"
+              >编辑</el-button
+            >
+            <el-popconfirm
+              title="确定删除吗？"
+              @confirm="delUserList(scope.row.id)"
+            >
+              <el-button type="danger" slot="reference">删除</el-button>
+            </el-popconfirm>
+          </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page.sync="currentPage1" :page-size="100" layout="total, prev, pager, next" :total="1000">
+    <div style="margin-top: 10px">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="params.pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="params.pageSize"
+        layout="total,sizes, prev, pager, next"
+        :total="total"
+      >
       </el-pagination>
     </div>
 
@@ -69,8 +109,18 @@ import request from '../../util/request';
 export default {
   data() {
     return {
-      input_user_id: '',
-      tableData: []
+      dialogFormVisible: false,
+      form: {},
+      params: {
+        user_id:"",
+        user_name:"",
+        user_Group_id:"",
+        user_phone:"",
+        pageNum: 1,
+        pageSize: 5,
+      },
+      tableData: [],
+      total: 0,
     }
   },
   created() {
@@ -79,16 +129,94 @@ export default {
   methods: {
     // 查询所有用户信息
     selectUserList() {
-      request.get("/user/getUserList").then(res => {
-        if (res.code === '0') {
+      request
+        .get("/user/getUserList", { params: this.params })
+        .then((res) => {
+          if (res.code === "0") {
+            // 调用成功
+            this.tableData = res.data.list;
+            this.total = res.data.total;
+          } else {
+            //调用失败
+          }
+        });
+    },
+
+    reset() {
+      this.params = {
+        user_id:"",
+        user_name:"",
+        user_User_id:"",
+        user_phone:"",
+        pageNum: 1,
+        pageSize: 5,
+      };
+      this.selectUserList();
+    },
+
+    //显示多少条
+    handleSizeChange(pageSize) {
+      this.params.pageSize = pageSize;
+      this.selectUserList();
+    },
+    //显示当前页
+    handleCurrentChange(pageNUm) {
+      this.params.pageNum = pageNUm;
+      this.selectUserList();
+    },
+
+    //添加数据库用户组
+    addUserList() {
+      this.form = {};
+      this.dialogFormVisible = true;
+    },
+
+    //修改数据库用户组
+    editUserList(obj) {
+      (this.form = obj), (this.dialogFormVisible = true);
+    },
+
+    //删除数据库用户组
+    delUserList(id) {
+      request.post("/user/deleteUserList/" + id).then((res) => {
+        if (res.code === "0") {
           // 调用成功
-          this.tableData = res.data;
+          this.$message({
+            type: "success",
+            message: "删除成功",
+          });
+          this.dialogFormVisible = false;
+          this.selectUserList();
         } else {
           //调用失败
+          this.$message({
+            type: "error",
+            message: "删除失败",
+          });
         }
-      }
-      )
-    }
+      });
+    },
+
+    //添加表单
+    submit() {
+      request.post("/user/changeUserList", this.form).then((res) => {
+        if (res.code === "0") {
+          // 调用成功
+          this.$message({
+            type: "success",
+            message: "操作成功",
+          });
+          this.dialogFormVisible = false;
+          this.selectUserList();
+        } else {
+          //调用失败
+          this.$message({
+            type: "error",
+            message: "操作失败",
+          });
+        }
+      });
+    },
   }
 }
 </script>
