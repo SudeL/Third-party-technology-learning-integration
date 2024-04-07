@@ -90,9 +90,7 @@ export default {
   methods: {
     // 查询所有的用户组信息
     selectGroupList() {
-      request
-        .get("/group/getGroupList", { params: this.params })
-        .then((res) => {
+      request.get("/group/getGroupList", { params: this.params }).then((res) => {
           if (res.code === "0") {
             // 调用成功
             this.tableData = res.data.list;

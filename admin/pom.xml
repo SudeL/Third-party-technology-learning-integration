@@ -15,6 +15,16 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+        <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.13.0</version>
+    </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -60,6 +70,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3220692c5ca00df9e737f6c320524df8d18b39fc
 <!--        分页查询-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -67,6 +81,10 @@
             <version>2.1.0</version>
         </dependency>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3220692c5ca00df9e737f6c320524df8d18b39fc
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

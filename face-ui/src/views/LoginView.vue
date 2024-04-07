@@ -28,13 +28,16 @@
         </template>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm">提交</el-button>
+          <el-button type="primary" @click="submitForm">登录</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="default" @click="switchForm">切换</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="default" @click="PhoneLong()">验证码登录</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="default" @click="FaceLong()">人脸登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -72,7 +75,10 @@ export default {
     }
   },
   methods: {
-    PhoneLong(){
+    FaceLong() {
+      this.$router.push('/FaceLoginView')
+    },
+    PhoneLong() {
       this.$router.push('/PhoneLoginView')
     },
     submitForm() {
@@ -98,17 +104,18 @@ export default {
               }
             )
           } else {
-            // 登录逻辑
+            // 登录逻辑  
             request.post("/user/login", this.form).then(res => {
               if (res.code === '0') {
-                // 调用成功
+                // 调用成功  
                 console.log(res);
-                this.$router.push('/HomeView')
+                // 存储数据到 sessionStorage  
+                sessionStorage.setItem('userData', JSON.stringify(res.data));
+                this.$router.push('/HomeView');
               } else {
-                //调用失败
+                // 调用失败  
               }
-            }
-            )
+            });
           }
 
         } else {
