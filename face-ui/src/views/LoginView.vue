@@ -28,7 +28,7 @@
         </template>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm">提交</el-button>
+          <el-button type="primary" @click="submitForm">登录</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="default" @click="switchForm">切换</el-button>

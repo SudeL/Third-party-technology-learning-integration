@@ -6,11 +6,13 @@ import com.jyb.common.Result;
 import com.jyb.group.domain.Group;
 import com.jyb.group.domain.Params;
 import com.jyb.group.service.GroupService;
+import com.jyb.util.FaceUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -45,5 +47,14 @@ public class GroupController {
 		//删除数据库用户组
 		boolean b = groupService.deleteGroupList(id);
 		return Result.success(b);
+	}
+
+	//获取用户组
+	@PostMapping("/getGroupID")
+	public Result getGroupID(){
+		System.out.println("调用了获取用户组方法 ");
+		String s = FaceUtil.queryGroup();
+		System.out.println(s);
+		return Result.success(s);
 	}
 }

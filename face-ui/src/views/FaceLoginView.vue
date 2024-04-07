@@ -5,6 +5,11 @@
             <canvas ref="canvas" class="canvas-element"></canvas>
         </div>
         <div class="button-wrapper">
+            选择用户组:
+            <el-select v-model="group_id" placeholder="请选择">
+                <el-option v-for="(item, index) in group_id_arr" :key="index" :label="item" :value="item">
+                </el-option>
+            </el-select>
             <el-button @click="startCamera">开启摄像头</el-button>
             <el-button @click="stopCamera">停止摄像头</el-button>
         </div>
@@ -12,14 +17,35 @@
 </template>
 
 <script>
+import request from '../util/request'
 export default {
     data() {
         return {
             stream: null,
             intervalId: null,
+            group_id_arr: {},//后台来的用户组数据
+            group_id: ''//前台选中的数据
         };
     },
+    created() {
+        this.getGroupID();
+
+    },
     methods: {
+        //后台获取用户组
+        getGroupID() {
+            request.post("/group/getGroupID").then((res) => {
+                if (res.code === "0") {
+                    // 调用成功
+                    this.group_id_arr = JSON.parse(res.data);
+                    // 将返回数据的用户组赋值给group_id_arr
+                    this.group_id_arr = this.group_id_arr.result.group_id_list;
+                    console.log(this.group_id_arr);
+                } else {
+                    //调用失败
+                }
+            });
+        },
         async startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -70,9 +96,10 @@ export default {
             }
         },
     },
+
     beforeDestroy() {
         this.stopCamera();
-    },
+    }
 };
 </script>
 
@@ -94,9 +121,9 @@ export default {
 }
 
 .video-element {
-    max-width: 50vw;
+    max-width: 25vw;
     /* 设置视频元素最大宽度为视口宽度的50% */
-    max-height: 50vh;
+    max-height: 25vh;
     /* 设置视频元素最大高度为视口高度的50% */
     object-fit: cover;
     /* 保持视频的宽高比，同时填充整个元素框 */
