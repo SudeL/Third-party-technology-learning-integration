@@ -56,13 +56,8 @@ public class GroupController {
 	@PostMapping("/FaceLogin")
 	public Result FaceLogin(@RequestBody FaceLoginVo faceLoginVo) {
 		System.out.println(faceLoginVo);
-		String s = FaceUtil.compareFace(String.valueOf(faceLoginVo.getGroup_id()), faceLoginVo.getBase64());
-		Gson gson = new Gson();
-		// 调用Gson的String toJson(Object)方法将Bean转换为json字符串
-		Object pJson = gson.toJson(s);
-		return Result.success(pJson);
-
-
+		String s = FaceUtil.compareFace(faceLoginVo.getGroup_id(), faceLoginVo.getBase64());
+		return Result.success(s);
 //	{   //调用结果如下
 //		"error_code": 0,
 //			"error_msg": "SUCCESS",

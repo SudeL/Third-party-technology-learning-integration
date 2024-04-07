@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class FaceLoginVo {
 	private String base64;
-	private Object group_id;
+	private String group_id;
 }

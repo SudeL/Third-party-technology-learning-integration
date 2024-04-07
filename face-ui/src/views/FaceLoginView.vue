@@ -1,227 +1,166 @@
 <template>
-  <!-- 页面模板开始 -->
-  <div class="video-container">
-    <!-- 视频容器 -->
-    <div class="video-wrapper">
-      <!-- 视频包装器 -->
-      <video ref="video" class="video-element" autoplay playsinline></video>
-      <!-- 视频元素 -->
-      <canvas ref="canvas" class="canvas-element"></canvas>
-      <!-- 画布元素 -->
+  <div>
+    <div class="videodome">
+      <div>
+        <video id="videoCamera" width="250" height="250" autoplay
+          style="border-radius:180px;box-shadow: darkgrey 0 0  30px 5px ;"></video>
+      </div>
+      <canvas style="display:none; " id="canvasCamera" width="250" height="250"></canvas>
     </div>
-    <div class="button-wrapper">
-      <!-- 按钮包装器 -->
-      选择用户组:
-      <!-- 选择用户组标签 -->
-      <el-select v-model="group_id" placeholder="请选择">
-        <!-- Element UI 下拉选择器 -->
-        <el-option
-          v-for="(item, index) in group_id_arr"
-          :key="index"
-          :label="item"
-          :value="item"
-        >
-        </el-option>
-      </el-select>
-      <!-- Element UI 选项 -->
-      <el-button @click="startCamera">开启摄像头</el-button>
-      <!-- Element UI 按钮，点击触发 startCamera 方法 -->
-      <el-button @click="stopCamera">停止摄像头</el-button>
-      <!-- Element UI 按钮，点击触发 stopCamera 方法 -->
-      <el-button @click="resetForm">返回</el-button>
+    <div class="img_bg_camera">
+      <p style="color: #000000;">图片显示</p>
+      <img :src="imgSrc" alt="" class="tx_img" style="border-radius:360px;box-shadow: darkgrey 0 0  30px 5px ;"
+        v-if="imgif">
+    </div>
+    <div class="bommen">
+      <el-button type="success" @click="getCompetence()">打开摄像头</el-button>
+      <!-- <el-button type="success" @click="setImage()">拍照</el-button> -->
+      <el-button type="primary" @click="openFullScreen1" v-loading.fullscreen.lock="fullscreenLoading">提交
+      </el-button>
     </div>
   </div>
 </template>
-
 <script>
-import request from "../util/request";
+import request from '../util/request.js'
 export default {
   data() {
     return {
-      par: {
-        base64: "",
-        group_id: "",
+      imgif: false,
+      videoWidth: 250,
+      videoHeight: 250,
+      imgSrc: '',
+      thisCancas: null,
+      thisContext: null,
+      thisVideo: null,
+      imga: '',
+      formData: {
+        base64: '',
+        group_id: ''
       },
-      index: 0,
-      stream: null,
-      intervalId: null,
-      group_id_arr: [], //后台来的用户组数据
-      group_id: "", //前台选中的数据
-    };
-  },
-  created() {
-    this.getGroupID();
+      groupList:[]
+    }
+
   },
   methods: {
-    //后台获取用户组
-    getGroupID() {
-      request.post("/group/getGroupID").then((res) => {
-        if (res.code === "0") {
-          // 调用成功
-          this.group_id_arr = JSON.parse(res.data);
-          // 将返回数据的用户组赋值给group_id_arr
-          this.group_id_arr = this.group_id_arr.result.group_id_list;
-        } else {
-          //调用失败
-        }
-      });
-    },
-    async startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        this.stream = stream;
-        this.$refs.video.srcObject = stream;
-
-        // 等待视频元数据加载完成后再设置canvas大小
-        this.$refs.video.addEventListener("loadedmetadata", () => {
-          this.setCanvasSize();
-          this.startCapturing();
-        });
-      } catch (error) {
-        console.error("无法访问摄像头：", error);
+    
+    // 提取图片转base64码并传递后台进行识别
+    getCompetence() {
+      var _this = this
+      this.thisCancas = document.getElementById('canvasCamera')
+      this.thisContext = this.thisCancas.getContext('2d')
+      this.thisVideo = document.getElementById('videoCamera')
+      // 旧版本浏览器可能根本不支持mediaDevices，我们首先设置一个空对象
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {}
       }
-    },
-    startCapturing() {
-      this.intervalId = setInterval(this.capturePhoto, 5000);
-    },
-    capturePhoto() {
-      if (this.index > 5) {
-        this.$message({
-          message: '登录超时，请请切换登录方式',
-          type: 'error'
-        })
-        if (this.stream) {
-          this.stream.getTracks().forEach((track) => track.stop());
-          this.stream = null;
-        }
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = null;
-        }
-        this.index = 0;
-      }
-      this.index = this.index + 1;
-
-      if (this.group_id === "") {
-        this.$message({
-          message: '未选择分组',
-          type: 'info'
-        })
-        if (this.stream) {
-          this.stream.getTracks().forEach((track) => track.stop());
-          this.stream = null;
-        }
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = null;
-        }
-        this.index = 0;
-      } else {
-        const video = this.$refs.video;
-        const canvas = this.$refs.canvas;
-        const context = canvas.getContext("2d");
-
-        // 绘制视频帧到canvas上
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // 将canvas转换为Base64
-        const base64 = canvas.toDataURL("image/jpeg");
-
-        // 在这里你可以添加发送Base64到后台的代码
-        this.par.base64 = base64;
-        this.par.group_id = this.group_id;
-        request.post("/group/FaceLogin", this.par).then((res) => {
-          if (res.code === "0") {
-            // 调用成功
-            console.log(res);
-            let jsonData = JSON.parse(res.data);
-            // 访问user_id和score
-            if (
-              jsonData.result &&
-              jsonData.result.user_list &&
-              jsonData.result.user_list.length > 0
-            ) {
-              let userId = jsonData.result.user_list[0].user_id;
-              let score = jsonData.result.user_list[0].score;
-            } else {
-              console.log("No user_list found in the JSON data.");
-            }
-            if (score > 90) {
-              this.$router.push("/HomeView");
-            }
-          } else {
-            //调用失败
+      // 一些浏览器实现了部分mediaDevices，我们不能只分配一个对象
+      // 使用getUserMedia，因为它会覆盖现有的属性。
+      // 这里，如果缺少getUserMedia属性，就添加它。
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+          // 首先获取现存的getUserMedia(如果存在)
+          var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator
+            .getUserMedia
+          // 有些浏览器不支持，会返回错误信息
+          // 保持接口一致
+          if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'))
           }
-        });
+          // 否则，使用Promise将调用包装到旧的navigator.getUserMedia
+          return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject)
+          })
+        }
       }
-    },
-    setCanvasSize() {
-      const video = this.$refs.video;
-      const canvas = this.$refs.canvas;
-      // 设置canvas的大小与视频流一致
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-    },
-    stopCamera() {
-      if (this.stream) {
-        this.stream.getTracks().forEach((track) => track.stop());
-        this.stream = null;
+      var constraints = {
+        audio: false,
+        video: {
+          width: this.videoWidth,
+          height: this.videoHeight,
+          transform: 'scaleX(-1)'
+        }
       }
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
-      this.index = 0;
-    },
-    resetForm() {
-      this.$router.push("/");
-    },
-  },
+      navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+        // 旧的浏览器可能没有srcObject
+        if ('srcObject' in _this.thisVideo) {
+          _this.thisVideo.srcObject = stream
 
-  beforeDestroy() {
-    this.stopCamera();
-  },
-};
+        } else {
+          // 避免在新的浏览器中使用它，因为它正在被弃用。
+          _this.thisVideo.src = window.URL.createObjectURL(stream)
+        }
+        _this.thisVideo.onloadedmetadata = function (e) {
+          _this.thisVideo.play()
+        }
+
+      }).catch(err => {
+        console.log(err)
+      })
+
+
+
+    },
+    //  绘制图片（拍照功能）
+
+    setImage() {
+      this.imgif = true
+      var _this = this
+      // 点击，canvas画图
+      _this.thisContext.drawImage(_this.thisVideo, 0, 0, 250, 250)
+      console.log(_this.thisContext);
+
+      // 获取图片base64链接
+      var image = this.thisCancas.toDataURL('image/png')
+      _this.imgSrc = image
+      window.sessionStorage.setItem("img", _this.imgSrc)
+      console.log(this.imgSrc);
+    },
+    //关闭摄像头并上传数据
+    openFullScreen1() {
+      this.thisVideo.srcObject.getTracks()[0].stop(),//关闭摄像头
+
+        setTimeout(() => {
+          // var file = this.imga.substr(22)
+          this.imga = window.sessionStorage.getItem("img")
+          var file = this.imga.split(",")[1]
+          console.log(file);
+          this.formData.base64 = file;
+          this.formData.group_id = "dome1";
+          //自己配置axios。
+          request.post("/group/FaceLogin", this.formData).then(
+            (res) => {
+              if (res.code === '0') {
+                try {
+                  // 解析字符串为对象  
+                  const dataObj = JSON.parse(res.data);
+                  // 检查result是否为空  
+                  if (!dataObj.result) {
+                    alert('result为空');
+                    return;
+                  }
+                  // 获取user_list数组  
+                  const userList = dataObj.result.user_list;
+                  // 遍历user_list数组并处理每个用户的信息  
+                  userList.forEach(user => {
+                    const user_id = user.user_id;
+                    const score = user.score;
+                    // 这里开始处理
+                    if (score > 90) {
+                      // 登录成功
+                      console.log("登录成功");
+                    }else{
+                      console.log("登录失败");
+                    }
+                  });
+                } catch (error) {
+                  // 处理JSON解析错误  
+                  alert('解析数据出错: ' + error.message);
+                }
+              }
+            }
+          )
+        }, 2000);
+    },
+  }
+}
 </script>
-
-<style scoped>
-.video-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  /* 使容器占据整个视口高度 */
-}
-
-.video-wrapper {
-  flex: 1;
-  /* 占据剩余空间 */
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.video-element {
-  max-width: 25vw;
-  /* 设置视频元素最大宽度为视口宽度的50% */
-  max-height: 25vh;
-  /* 设置视频元素最大高度为视口高度的50% */
-  object-fit: cover;
-  /* 保持视频的宽高比，同时填充整个元素框 */
-}
-
-.canvas-element {
-  display: none;
-  /* 隐藏canvas，因为我们只用它来捕获图片 */
-}
-
-.button-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  background-color: #f5f5f5;
-  /* 可选：为按钮区域添加背景色 */
-}
-</style>
