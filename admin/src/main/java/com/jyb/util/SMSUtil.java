@@ -7,8 +7,10 @@ import com.aliyun.tea.TeaException;
 public class SMSUtil {
 
 	public static com.aliyun.dysmsapi20170525.Client createClient() throws Exception {
-		com.aliyun.teaopenapi.models.Config config = new com.aliyun.teaopenapi.models.Config();
+		com.aliyun.teaopenapi.models.Config config = new com.aliyun.teaopenapi.models.Config()
+
 		config.endpoint = "dysmsapi.aliyuncs.com";
+
 		return new com.aliyun.dysmsapi20170525.Client(config);
 	}
 

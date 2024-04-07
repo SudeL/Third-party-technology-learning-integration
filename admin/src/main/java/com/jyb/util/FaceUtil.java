@@ -17,8 +17,7 @@ public class FaceUtil {
 
 
 	//人脸识别密钥
-	public static final String API_KEY = "dHJD4mQqorneLpR5OXiGlgS5";
-	public static final String SECRET_KEY = "jvB7UVYJSsFRM9rLSRhSI3g190fz84Sp";
+
 
 	//查询分组
 	public static String queryGroup() {

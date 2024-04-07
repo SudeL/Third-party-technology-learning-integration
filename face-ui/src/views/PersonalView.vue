@@ -5,10 +5,7 @@
       <p>用户ID: {{ user.id }}</p>
       <p>
         用户头像路径:
-        <img
-          :src="user.user_face_path ? user.user_face_path : '无'"
-          style="max-width: 200px"
-        />
+        <img :src="user.user_face_path ? user.user_face_path : '无'" style="max-width: 200px" />
       </p>
       <p>用户组ID: {{ user.user_group_id }}</p>
       <p>用户登录ID: {{ user.user_id }}</p>
@@ -24,30 +21,16 @@
       <p>用户ID: {{ user.id }}</p>
       <p>
         用户头像路径:
-        <el-upload
-          class="avatar-uploader"
-          action="/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img
-            v-if="user.user_face_path"
-            :src="user.user_face_path"
-            class="avatar"
-          />
+        <el-upload class="avatar-uploader" action="/upload" :show-file-list="false" :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="user.user_face_path" :src="user.user_face_path" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </p>
       <p>
         用户组ID:
         <el-select v-model="user.user_group_id" placeholder="请选择">
-          <el-option
-            v-for="group in userGroups"
-            :key="group.id"
-            :label="group.name"
-            :value="group.id"
-          ></el-option>
+          <el-option v-for="group in userGroups" :key="group.id" :label="group.name" :value="group.id"></el-option>
         </el-select>
       </p>
       <p>用户登录ID: <el-input v-model="user.user_id" disabled></el-input></p>
@@ -81,7 +64,7 @@ export default {
         user_password: "", // 用户密码
         user_phone: "", // 用户电话
       },
-      dialogVisible:false, // 控制弹出卡片的显示/隐藏
+      dialogVisible: false, // 控制弹出卡片的显示/隐藏
       userGroups: [], // 存储用户组数据的数组
     };
   },
@@ -111,7 +94,6 @@ export default {
         { id: 2, name: "用户组2" },
         { id: 3, name: "用户组3" },
       ];
-
       this.userGroups = userGroupsData;
     },
     handleAvatarSuccess(res, file) {
@@ -156,4 +138,3 @@ export default {
   display: block;
 }
 </style>
->>>>>>> 3220692c5ca00df9e737f6c320524df8d18b39fc

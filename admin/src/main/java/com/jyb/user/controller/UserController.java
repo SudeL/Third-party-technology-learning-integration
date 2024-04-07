@@ -51,9 +51,15 @@ public class UserController {
 	@PostMapping("/login")
 	public Result login(@RequestBody User user) {
 		List<User> list = userService.Login(user);
-		return Result.success(list);
+		if (list.size() == 0){
+//			登录失败
+			return Result.error(" 登录失败");
+		}else {
+			return Result.success(list);
+		}
+
 	}
-	//登录
+	//注册
 	@PostMapping("/reg")
 	public Result reg(@RequestBody User user) {
 		System.out.println(user);

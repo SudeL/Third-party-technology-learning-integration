@@ -107,6 +107,7 @@ export default {
             // 登录逻辑  
             request.post("/user/login", this.form).then(res => {
               if (res.code === '0') {
+                
                 // 调用成功  
                 console.log(res);
                 // 存储数据到 sessionStorage  
@@ -114,6 +115,8 @@ export default {
                 this.$router.push('/HomeView');
               } else {
                 // 调用失败  
+                alert(res.msg)
+                console.log(res);
               }
             });
           }

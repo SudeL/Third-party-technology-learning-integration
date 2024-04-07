@@ -84,7 +84,7 @@ export default {
       }
     },
     startCapturing() {
-      this.intervalId = setInterval(this.capturePhoto, 1000);
+      this.intervalId = setInterval(this.capturePhoto, 5000);
     },
     capturePhoto() {
       if (this.index > 5) {
