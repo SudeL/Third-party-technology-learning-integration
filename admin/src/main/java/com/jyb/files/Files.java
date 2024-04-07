@@ -22,7 +22,7 @@ public class Files {
 	/*
 	* 文件上传
 	* */
-	@PostMapping("/files")
+	@PostMapping("/upload")
 	public Result upload(MultipartFile file){
 		synchronized (Files.class){
 //			获取时间戳

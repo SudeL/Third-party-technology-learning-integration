@@ -37,4 +37,7 @@ public interface UserInfoMapper {
 //注册
 	@Insert("insert into user_info (user_name,user_password) values (#{user_name},#{user_password})")
 	List<User> reg(User user);
+//通过use_id获取数据
+	@Select("select * from user_info where user_id = #{userId}")
+	List<User> getUserByUserID(String userId);
 }

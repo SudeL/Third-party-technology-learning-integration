@@ -19,7 +19,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	//获取全部group表数据
+	//获取全部user表数据
 	@GetMapping("/getUserList")
 	public Result getUserList(UserParams params) {
 		PageInfo<User> userList = userService.getUserList(params);
@@ -80,4 +80,13 @@ public class UserController {
 		return Result.success(phoneLoginVo1);
 	}
 
+	//通过user_id获取数据
+	@PostMapping("/getUserByUserID")
+	public Result getUserByUserID(@RequestBody String user_id) {
+		user_id = user_id.replaceAll("^\"|\"$", "");
+		System.out.println(user_id);
+		List<User> userByUserID = userService.getUserByUserID(user_id);
+		System.out.println(userByUserID);
+		return Result.success(userByUserID);
+	}
 }

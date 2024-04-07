@@ -55,7 +55,7 @@ public class GroupController {
 	//	人脸认证登录
 	@PostMapping("/FaceLogin")
 	public Result FaceLogin(@RequestBody FaceLoginVo faceLoginVo) {
-		System.out.println(faceLoginVo);
+//		System.out.println(faceLoginVo);
 		String s = FaceUtil.compareFace(faceLoginVo.getGroup_id(), faceLoginVo.getBase64());
 		return Result.success(s);
 //	{   //调用结果如下
