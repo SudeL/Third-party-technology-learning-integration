@@ -7,11 +7,11 @@
       </div>
       <canvas style="display:none; " id="canvasCamera" width="250" height="250"></canvas>
     </div>
-    <div class="img_bg_camera">
+    <!-- <div class="img_bg_camera"> -->
       <!-- <p style="color: #000000;">图片显示</p> -->
-      <img :src="imgSrc" alt="" class="tx_img" style="border-radius:360px;box-shadow: darkgrey 0 0  30px 5px ;"
-        v-if="imgif">
-    </div>
+      <!-- <img :src="imgSrc" alt="" class="tx_img" style="border-radius:360px;box-shadow: darkgrey 0 0  30px 5px ;"
+        v-if="imgif"> -->
+    <!-- </div> -->
     <div class="bommen">
       <el-select v-model="formData.group_id" placeholder="请选择">
         <el-option v-for="item in groupIdList" :key="item" :label="item" :value="item">
@@ -160,7 +160,11 @@ export default {
                   const dataObj = JSON.parse(res.data);
                   // 检查result是否为空  
                   if (!dataObj.result) {
-                    alert('result为空');
+                    this.$message({
+                            showClose: true,
+                            message:未选择用户组,
+                            type: 'error'
+                        });
                     return;
                   }
                   // 获取user_list数组  
@@ -219,7 +223,7 @@ body {
   /* 自动边距和居中 */
   position: relative;
   /* 相对定位，为子元素定位做准备 */
-  box-shadow: darkgrey 0 0 30px 5px;
+  /* box-shadow: darkgrey 0 0 30px 5px; */
   /* 保留原有的阴影效果 */
   border-radius: 180px;
   /* 保留原有的边框圆角 */
