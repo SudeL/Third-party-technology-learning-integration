@@ -26,6 +26,14 @@ public class UserController {
 		return Result.success(userList);
 	}
 
+	//查询个人信息
+	@GetMapping("/getPersonList/{user_name}")
+	public Result getPersonList(@PathVariable String user_name) {
+		User list = userService.getPersonList(user_name);
+		return Result.success(list);
+	}
+
+
 	//添加或修改user
 	@PostMapping("/changeUserList")
 	public Result changeUserList(@RequestBody User user) {
@@ -50,14 +58,13 @@ public class UserController {
 	//登录
 	@PostMapping("/login")
 	public Result login(@RequestBody User user) {
-		List<User> list = userService.Login(user);
-		if (list.isEmpty()) {
+		User u = userService.Login(user);
+		if (u == null){
 //			登录失败
 			return Result.error(" 登录失败");
-		} else {
-			return Result.success(list);
+		}else {
+			return Result.success(u);
 		}
-
 	}
 
 	//注册

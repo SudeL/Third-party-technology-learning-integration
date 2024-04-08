@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div>
@@ -31,19 +30,18 @@
       </el-descriptions>
 
       <el-button type="primary" @click="editUser()">修改</el-button>
-
     </div>
 
     <!-- Form -->
-    <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="35%" >
+    <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="35%">
       <el-form :model="form">
         <el-form-item label="用户ID" :label-width="formLabelWidth">
-          <el-input v-model="form.id" autocomplete="off"></el-input>
+          <el-input v-model="form.id" autocomplete="off" readonly></el-input>
         </el-form-item>
         <el-form-item label="用户头像" :label-width="formLabelWidth">
           <el-upload
             class="avatar-uploader"
-            action="/upload"
+            action="/files/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -62,21 +60,12 @@
         <el-form-item label="用户密码" :label-width="formLabelWidth">
           <el-input v-model="form.user_password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="用户登录ID" :label-width="formLabelWidth">
-          <el-input v-model="form.user_id" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="是否管理员" :label-width="formLabelWidth">
-          <el-radio-group v-model="form.user_isadmin">
-            <el-radio label="1">是</el-radio>
-            <el-radio label="2">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
         <el-form-item label="手机号" :label-width="formLabelWidth">
           <el-input v-model="form.user_phone" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="cancel()">取消</el-button>
         <el-button type="primary" @click="saveUser()">保存</el-button>
       </div>
     </el-dialog>
@@ -84,8 +73,10 @@
 </template>
 
 <script>
+import request from "../util/request";
+
 export default {
-  name:"PersonalView",
+  name: "PersonalView",
   data() {
     return {
       form: {
@@ -93,7 +84,7 @@ export default {
         user_face_path: "", // 用户头像路径保存在user_face_path属性中
         user_group_id: "", // 用户组ID
         user_id: "", // 用户登录ID
-        user_isadmin: "1", // 是否管理员
+        user_isadmin: "0", // 是否管理员
         user_name: "", // 用户名
         user_password: "", // 用户密码
         user_phone: "", // 用户电话
@@ -104,11 +95,7 @@ export default {
     };
   },
   mounted() {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
-    if (userData) {
-      this.form = userData[0];
-    }
-
+    this.selectPersonList();
     // 获取用户组数据
     this.getUserGroupsFromBackend();
   },
@@ -118,7 +105,12 @@ export default {
     },
     saveUser() {
       // 向后台发送修改后的用户数据（this.user）
-      this.saveUserToBackend(this.form);
+      this.saveUserToBackend();
+      this.form = {};
+      this.dialogFormVisible = false;
+    },
+    cancel() {
+      this.selectPersonList();
       this.dialogFormVisible = false;
     },
     getUserGroupsFromBackend() {
@@ -149,6 +141,42 @@ export default {
 
       return (isJPG || isPNG) && isLt2M;
     },
+
+    saveUserToBackend() {
+      request.post("/user/changeUserList", this.form).then((res) => {
+        if (res.code === "0") {
+          // 调用成功
+          this.$message({
+            type: "success",
+            message: "修改成功",
+          });
+          this.selectPersonList();
+        } else {
+          //调用失败
+          this.$message({
+            type: "error",
+            message: "修改失败",
+          });
+        }
+      });
+    },
+
+    // 查询个人信息
+    selectPersonList() {
+      const userData = JSON.parse(sessionStorage.getItem("userData"));
+      if (userData) {
+        this.form = userData;
+      }
+      console.log(this.form);
+      request.get("/user/getPersonList/" + this.form.user_name).then((res) => {
+        if (res.code === "0") {
+          // 调用成功
+          this.form = res.data;
+        } else {
+          //调用失败
+        }
+      });
+    },
   },
 };
 </script>
@@ -173,5 +201,4 @@ export default {
   height: 78px;
   display: block;
 }
-
 </style>
