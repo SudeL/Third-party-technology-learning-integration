@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80030
 File Encoding         : 65001
 
-Date: 2024-04-07 17:26:42
+Date: 2024-04-08 13:15:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,23 +29,9 @@ CREATE TABLE `group_info` (
 -- ----------------------------
 -- Records of group_info
 -- ----------------------------
-INSERT INTO `group_info` VALUES ('1', '创意炼金术士');
-INSERT INTO `group_info` VALUES ('2', '创意融合实验室');
-INSERT INTO `group_info` VALUES ('3', '变革之翼');
-INSERT INTO `group_info` VALUES ('4', '宇宙解码者');
-INSERT INTO `group_info` VALUES ('5', '无限探索团');
-INSERT INTO `group_info` VALUES ('6', '时空漫游者');
-INSERT INTO `group_info` VALUES ('7', '星辰旅者');
-INSERT INTO `group_info` VALUES ('8', '智慧之光');
-INSERT INTO `group_info` VALUES ('9', '智慧火花');
-INSERT INTO `group_info` VALUES ('10', '智能先驱');
-INSERT INTO `group_info` VALUES ('11', '未来守护者');
-INSERT INTO `group_info` VALUES ('12', '未来构造者');
-INSERT INTO `group_info` VALUES ('13', '极限挑战者');
-INSERT INTO `group_info` VALUES ('14', '梦想加速器');
-INSERT INTO `group_info` VALUES ('15', '梦想编织者');
-INSERT INTO `group_info` VALUES ('16', '灵感触发者');
-INSERT INTO `group_info` VALUES ('17', '科技领航团');
-INSERT INTO `group_info` VALUES ('18', '绿野奇兵');
-INSERT INTO `group_info` VALUES ('19', '蓝图导航员');
-INSERT INTO `group_info` VALUES ('20', '革新先锋');
+INSERT INTO `group_info` VALUES ('1', 'demo1');
+INSERT INTO `group_info` VALUES ('2', 'demo2');
+INSERT INTO `group_info` VALUES ('3', 'demo3');
+INSERT INTO `group_info` VALUES ('4', 'demo4');
+INSERT INTO `group_info` VALUES ('5', 'demo5');
+INSERT INTO `group_info` VALUES ('6', 'demo6');
