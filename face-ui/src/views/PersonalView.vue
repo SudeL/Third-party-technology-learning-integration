@@ -8,11 +8,11 @@
         }}</el-descriptions-item>
         <el-descriptions-item label="人脸认证图片">
 
-            <el-image style="width: 100px; height: 100px" 
-            :src="'http://localhost:8080/files/' +this.user_img_url" 
+            <el-image style="width: 100px; height: 100px"
+            :src="'http://localhost:8080/files/' +this.user_img_url"
             :preview-src-list="['http://localhost:8080/files/' +this.user_img_url]">
             </el-image>
-     
+
 
         </el-descriptions-item>
 

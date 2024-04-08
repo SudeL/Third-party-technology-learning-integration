@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin-bottom: 15px; margin-top: 15px">
-      <span class="text-sapn-select">用户组名字：</span>
+      <span class="text-span-select">用户组名字：</span>
       <el-input
         class="input-select"
         placeholder="请输入组名字"
@@ -42,7 +42,7 @@
             >
             <el-popconfirm
               title="确定删除吗？"
-              @confirm="delGroupList(scope.row.id)"
+              @confirm="delGroupList(scope.row.group_id)"
             >
               <el-button type="danger" slot="reference">删除</el-button>
             </el-popconfirm>
@@ -133,8 +133,8 @@ export default {
     },
 
     //删除数据库用户组
-    delGroupList(id) {
-      request.post("/group/deleteGroupList/" + id).then((res) => {
+    delGroupList(group_id) {
+      request.post("/group/deleteGroupList/" + group_id).then((res) => {
         if (res.code === "0") {
           // 调用成功
           this.$message({

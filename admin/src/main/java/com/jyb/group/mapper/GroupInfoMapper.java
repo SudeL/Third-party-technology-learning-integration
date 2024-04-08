@@ -28,6 +28,6 @@ public interface GroupInfoMapper {
 
 
 	//删除数据库用户组
-	@Delete("delete from group_info where id = #{id}")
-	boolean deleteGroupList(Integer id);
+	@Delete("delete from group_info where group_id = #{group_id}")
+	boolean deleteGroupList(String group_id);
 }
