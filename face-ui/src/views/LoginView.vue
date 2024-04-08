@@ -28,7 +28,7 @@
         </template>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm">登录</el-button>
+          <el-button type="primary" @click="submitForm">提交</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="default" @click="switchForm">切换</el-button>
@@ -92,12 +92,13 @@ export default {
             request.post("/user/reg", this.form).then(
               res => {
                 if (res.code === '0') {
+                  console.log(res)
                   // 调用成功         
                   this.$message({
+                    showClose: true,
                     message: '注册成功',
                     type: 'success'
                   });
-                  console.log(res)
                 } else {
                   //调用失败
                 }
