@@ -53,7 +53,6 @@ public class Files {
 
 	@GetMapping("/{flag}")
 	public void avatarPath(@PathVariable String flag, HttpServletResponse response){
-		System.out.println(flag);
 	if(!FileUtil.isDirectory(filePath)){
 		FileUtil.mkdir(filePath);
 	}

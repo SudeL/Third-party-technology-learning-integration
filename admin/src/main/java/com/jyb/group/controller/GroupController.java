@@ -35,15 +35,19 @@ public class GroupController {
 		} else {
 			//修改数据库用户组
 			groupService.updateGroupList(group);
+			FaceUtil.deleteUserList(group.getGroup_id());
+			FaceUtil.addUserList(group.getGroup_id());
 		}
 		return Result.success();
 	}
 
 	//删除group
-	@PostMapping("/deleteGroupList/{id}")
-	public Result deleteGroupList(@PathVariable Integer id) {
+	@PostMapping("/deleteGroupList/#{group_id}")
+	public Result deleteGroupList(@PathVariable String group_id) {
 		//删除数据库用户组
-		boolean b = groupService.deleteGroupList(id);
+		boolean b = groupService.deleteGroupList(group_id);
+		//删除百度用户组
+		FaceUtil.deleteUserList(group_id);
 		return Result.success(b);
 	}
 

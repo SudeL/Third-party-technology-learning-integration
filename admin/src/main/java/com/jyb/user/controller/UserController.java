@@ -2,14 +2,18 @@ package com.jyb.user.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.jyb.common.Result;
+import com.jyb.files.Files;
 import com.jyb.user.domain.User;
 import com.jyb.user.domain.UserParams;
 import com.jyb.user.domain.Vo.PhoneLoginVo;
 import com.jyb.user.service.UserService;
+import com.jyb.util.FaceUtil;
 import com.jyb.util.SMSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -43,6 +47,12 @@ public class UserController {
 		} else {
 			//修改数据库用户
 			userService.updateUserList(user);
+			if (user.getUser_face_path()!=null){
+				//人脸注册
+				String user_id = System.currentTimeMillis() + "";
+				String filePath = System.getProperty("user.dir") + "/file/" + user.getUser_face_path();
+				FaceUtil.addFace(user.getUser_group_id(),filePath , user_id);
+			}
 		}
 		return Result.success();
 	}
@@ -70,7 +80,6 @@ public class UserController {
 	//注册
 	@PostMapping("/reg")
 	public Result reg(@RequestBody User user) {
-		System.out.println(user);
 		Result list = userService.reg(user);
 		return list;
 	}

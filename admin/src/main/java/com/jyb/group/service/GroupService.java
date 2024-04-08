@@ -36,9 +36,9 @@ public class GroupService {
 	}
 
 	//删除用户组
-	public boolean deleteGroupList(Integer id){
+	public boolean deleteGroupList(String group_id){
 		//删除数据库用户组
-		return  groupInfoMapper.deleteGroupList(id);
+		return  groupInfoMapper.deleteGroupList(group_id);
 	}
 
 
