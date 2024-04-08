@@ -33,7 +33,7 @@
     </div>
 
     <!-- Form -->
-    <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="35%">
+    <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="40%">
       <el-form :model="form">
         <el-form-item label="用户ID" :label-width="formLabelWidth">
           <el-input v-model="form.id" autocomplete="off" readonly></el-input>
@@ -134,7 +134,7 @@ export default {
     },
     // 文件上传回调函数
     successUpdata(res) {
-        console.log(res);
+        this.form.user_face_path = res.data
     },
 
     saveUserToBackend() {
