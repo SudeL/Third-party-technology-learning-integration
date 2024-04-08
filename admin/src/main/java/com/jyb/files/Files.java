@@ -43,7 +43,7 @@ public class Files {
 				System.out.println("文件上传失败");
 				System.out.println(e);
 			}
-			return  Result.success(flag);
+			return  Result.success(flag + "~" + fileName);
 		}
 	}
 

@@ -28,7 +28,6 @@ public class UserService {
 		return userInfoMapper.getPersonList(user_name);
 	}
 
-
 	//添加数据库用户
 	public boolean addUserList(User user){
 		user.setUser_isadmin("0");
