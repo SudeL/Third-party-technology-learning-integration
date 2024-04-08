@@ -15,6 +15,7 @@ import java.util.List;
 * 文件上传下载类处理
 * */
 @RestController
+@CrossOrigin
 @RequestMapping("/files")
 public class Files {
 //	文件上传路径

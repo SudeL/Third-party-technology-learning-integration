@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div>
@@ -6,28 +5,25 @@
       <el-descriptions title="用户信息" v-if="form" :column="2" size="200px">
         <el-descriptions-item label="用户ID">{{
           form.id
-        }}</el-descriptions-item>
+          }}</el-descriptions-item>
         <el-descriptions-item label="头像">
-          <img
-            :src="form.user_face_path ? form.user_face_path : '无'"
-            style="max-width: 200px"
-        /></el-descriptions-item>
+          <img :src="form.user_face_path ? form.user_face_path : '无'" style="max-width: 200px" /></el-descriptions-item>
         <el-descriptions-item label="用户名">{{
           form.user_name
-        }}</el-descriptions-item>
+          }}</el-descriptions-item>
         <el-descriptions-item label="用户密码">{{
           form.user_password
-        }}</el-descriptions-item>
+          }}</el-descriptions-item>
 
         <el-descriptions-item label="用户组ID">{{
           form.user_group_id
-        }}</el-descriptions-item>
+          }}</el-descriptions-item>
         <el-descriptions-item label="用户登录ID">{{
           form.user_id
-        }}</el-descriptions-item>
+          }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{
           form.user_phone
-        }}</el-descriptions-item>
+          }}</el-descriptions-item>
       </el-descriptions>
 
       <el-button type="primary" @click="editUser()">修改</el-button>
@@ -35,26 +31,19 @@
     </div>
 
     <!-- Form -->
-    <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="35%" >
+    <el-dialog title="个人信息" :visible.sync="dialogFormVisible" width="35%">
       <el-form :model="form">
         <el-form-item label="用户ID" :label-width="formLabelWidth">
           <el-input v-model="form.id" autocomplete="off"></el-input>
         </el-form-item>
+
         <el-form-item label="用户头像" :label-width="formLabelWidth">
-          <el-upload
-            class="avatar-uploader"
-            action="/upload"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img
-              v-if="form.user_face_path"
-              :src="form.user_face_path"
-              class="avatar"
-            />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <el-upload class="upload-demo" drag action="http://localhost:8080/files/upload" :on-success="successUpdata" multiple>
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+
         </el-form-item>
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.user_name" autocomplete="off"></el-input>
@@ -85,7 +74,7 @@
 
 <script>
 export default {
-  name:"PersonalView",
+  name: "PersonalView",
   data() {
     return {
       form: {
@@ -113,6 +102,7 @@ export default {
     this.getUserGroupsFromBackend();
   },
   methods: {
+
     editUser() {
       this.dialogFormVisible = true;
     },
@@ -132,9 +122,6 @@ export default {
 
       this.userGroups = userGroupsData;
     },
-    handleAvatarSuccess(res, file) {
-      this.form.user_face_path = URL.createObjectURL(file.raw);
-    },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
       const isPNG = file.type === "image/png";
@@ -149,6 +136,10 @@ export default {
 
       return (isJPG || isPNG) && isLt2M;
     },
+    // 文件上传回调函数
+    successUpdata(res) {
+        console.log(res);
+    }
   },
 };
 </script>
@@ -173,5 +164,4 @@ export default {
   height: 78px;
   display: block;
 }
-
 </style>
