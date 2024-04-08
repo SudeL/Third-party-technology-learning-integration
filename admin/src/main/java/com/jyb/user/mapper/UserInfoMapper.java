@@ -21,8 +21,12 @@ public interface UserInfoMapper {
 	@Insert("insert into user_info values (null,null,#{user_name},#{user_password},null,null,#{user_isadmin},null)")
 	boolean addUserList(User user);
 
+	//	获取个人的user信息
+	@Select("select * from user_info where user_name=#{user_name}")
+	User getPersonList(String user_name);
+
 	//修改数据库用户
-	@Update("update user_info set user_name = #{user_name},user_password=#{user_password} where id = #{id}")
+	@Update("update user_info set user_name = #{user_name},user_password=#{user_password},user_group_id=#{user_group_id},user_isadmin=#{user_isadmin},user_face_path=#{user_face_path},user_phone=#{user_phone} where id = #{id}")
 	boolean updateUserList(User user);
 
 
@@ -32,7 +36,7 @@ public interface UserInfoMapper {
 
 //登录
 	@Select("select * from  user_info where  user_name = #{user_name} and user_password = #{user_password}")
-	List<User> Login(User user);
+	User Login(User user);
 
 //注册
 	@Insert("insert into user_info (user_name,user_password) values (#{user_name},#{user_password})")

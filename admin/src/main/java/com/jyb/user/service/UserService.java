@@ -23,9 +23,15 @@ public class UserService {
 		return PageInfo.of(info);
 	}
 
+	//查询个人信息
+	public User getPersonList(String user_name){
+		return userInfoMapper.getPersonList(user_name);
+	}
+
+
 	//添加数据库用户
-	public boolean addUserList(User user) {
-		user.setUser_isadmin("1");
+	public boolean addUserList(User user){
+		user.setUser_isadmin("0");
 		return userInfoMapper.addUserList(user);
 	}
 
@@ -41,11 +47,9 @@ public class UserService {
 	}
 
 	//登录方法
-	public List<User> Login(User user) {
+	public User Login(User user){
 		return userInfoMapper.Login(user);
 	}
-
-	;
 
 	//注册
 	public Result reg(User user) {
