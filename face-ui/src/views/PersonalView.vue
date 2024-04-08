@@ -5,28 +5,34 @@
       <el-descriptions title="用户信息" v-if="form" :column="2" size="200px">
         <el-descriptions-item label="用户ID">{{
           form.id
-          }}</el-descriptions-item>
+        }}</el-descriptions-item>
         <el-descriptions-item label="人脸认证图片">
 
-          <img :src="form.user_face_path ? '../../../file' + form.user_face_path : '无'" style="max-width: 200px" /></el-descriptions-item>
-        
-        
+            <el-image style="width: 100px; height: 100px" 
+            :src="'http://localhost:8080/files/' +this.user_img_url" 
+            :preview-src-list="['http://localhost:8080/files/' +this.user_img_url]">
+            </el-image>
+     
+
+        </el-descriptions-item>
+
+
         <el-descriptions-item label="用户名">{{
           form.user_name
-          }}</el-descriptions-item>
+        }}</el-descriptions-item>
         <el-descriptions-item label="用户密码">{{
           form.user_password
-          }}</el-descriptions-item>
+        }}</el-descriptions-item>
 
         <el-descriptions-item label="用户组ID">{{
           form.user_group_id
-          }}</el-descriptions-item>
+        }}</el-descriptions-item>
         <el-descriptions-item label="用户登录ID">{{
           form.user_id
-          }}</el-descriptions-item>
+        }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{
           form.user_phone
-          }}</el-descriptions-item>
+        }}</el-descriptions-item>
       </el-descriptions>
 
       <el-button type="primary" @click="editUser()">修改</el-button>
@@ -40,7 +46,8 @@
         </el-form-item>
 
         <el-form-item label="用户头像" :label-width="formLabelWidth">
-          <el-upload class="upload-demo" drag action="http://localhost:8080/files/upload" :on-success="successUpdata" multiple>
+          <el-upload class="upload-demo" drag action="http://localhost:8080/files/upload" :on-success="successUpdata"
+            multiple>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -85,6 +92,7 @@ export default {
       dialogFormVisible: false, // 控制弹出卡片的显示/隐藏
       userGroups: [], // 存储用户组数据的数组
       formLabelWidth: "120px",
+      user_img_url:''
     };
   },
   mounted() {
@@ -107,17 +115,6 @@ export default {
       this.selectPersonList();
       this.dialogFormVisible = false;
     },
-    getUserGroupsFromBackend() {
-      // 模拟从后台获取用户组数据的逻辑
-      // 假设从后台获取的用户组数据是一个数组，每个元素包含 id 和 name
-      const userGroupsData = [
-        { id: 1, name: "用户组1" },
-        { id: 2, name: "用户组2" },
-        { id: 3, name: "用户组3" },
-      ];
-
-      this.userGroups = userGroupsData;
-    },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
       const isPNG = file.type === "image/png";
@@ -134,7 +131,8 @@ export default {
     },
     // 文件上传回调函数
     successUpdata(res) {
-        this.form.user_face_path = res.data
+      this.form.user_face_path = res.data
+      this.user_img_url = this.form.user_face_path.split('~')[0];
     },
 
     saveUserToBackend() {
@@ -161,12 +159,14 @@ export default {
       const userData = JSON.parse(sessionStorage.getItem("userData"));
       if (userData) {
         this.form = userData;
+        this.user_img_url = this.form.user_face_path.split('~')[0];
       }
       console.log(this.form);
       request.get("/user/getPersonList/" + this.form.user_name).then((res) => {
         if (res.code === "0") {
           // 调用成功
           this.form = res.data;
+          this.user_img_url = this.form.user_face_path.split('~')[0];
         } else {
           //调用失败
         }
