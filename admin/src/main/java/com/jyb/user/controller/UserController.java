@@ -84,7 +84,8 @@ public class UserController {
 		System.out.println(phoneLoginVo);
 		System.out.println(code);
 		System.out.println(s);
-		PhoneLoginVo phoneLoginVo1 = new PhoneLoginVo(phoneLoginVo.getUser_phone(), code, s);
+		PhoneLoginVo phoneLoginVo1 = new PhoneLoginVo(phoneLoginVo.getUser_phone(), code, s,user);
+		System.out.println(phoneLoginVo1);
 		return Result.success(phoneLoginVo1);
 	}
 

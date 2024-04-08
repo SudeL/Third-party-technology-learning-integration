@@ -32,6 +32,7 @@ export default {
                 user_phone: '',
                 code: '',
                 s: '',
+                userList:[]
 
             },
             old: {
@@ -72,6 +73,7 @@ export default {
                     if (res.code === '0') {
                         this.old = res.data
                         console.log(this.old);
+                        sessionStorage.setItem('userData', JSON.stringify(res.data.userList));
                     } else {
                         this.$message({
                             showClose: true,
