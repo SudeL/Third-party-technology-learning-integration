@@ -25,8 +25,8 @@ public class UserService {
 	}
 
 	//查询个人信息
-	public User getPersonList(String user_name){
-		return userInfoMapper.getPersonList(user_name);
+	public User getPersonList(User user){
+		return userInfoMapper.getPersonList(user);
 	}
 
 	//添加数据库用户

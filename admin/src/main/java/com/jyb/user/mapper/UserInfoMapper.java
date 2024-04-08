@@ -23,7 +23,7 @@ public interface UserInfoMapper {
 
 	//	获取个人的user信息
 	@Select("select * from user_info where user_name=#{user_name}")
-	User getPersonList(String user_name);
+	User getPersonList(User user);
 
 	//修改数据库用户
 	@Update("update user_info set user_name = #{user_name},user_password=#{user_password},user_group_id=#{user_group_id},user_isadmin=#{user_isadmin},user_face_path=#{user_face_path},user_phone=#{user_phone} where id = #{id}")

@@ -162,7 +162,7 @@ export default {
         this.user_img_url = this.form.user_face_path.split('~')[0];
       }
       console.log(this.form);
-      request.get("/user/getPersonList/" + this.form.user_name).then((res) => {
+      request.get("/user/getPersonList/" + this.form).then((res) => {
         if (res.code === "0") {
           // 调用成功
           this.form = res.data;

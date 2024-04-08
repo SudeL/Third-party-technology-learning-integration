@@ -23,4 +23,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
+<!--    <select id="getPersonList" resultType="User">-->
+<!--        select * from user_info-->
+<!--        <where>-->
+<!--            <if test="user!=null and user.user_name != ''">-->
+<!--                user_name = #{user.user_name}-->
+<!--            </if>-->
+<!--            <if test="user!=null and user.user_id != ''">-->
+<!--                user_id = #{user.user_id}-->
+<!--            </if>-->
+<!--            <if test="user!=null and user.user_phone != ''">-->
+<!--                user_phone = #{user.user_phone}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
 </mapper>

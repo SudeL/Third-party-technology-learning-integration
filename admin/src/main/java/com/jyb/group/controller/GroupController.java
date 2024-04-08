@@ -1,6 +1,5 @@
 package com.jyb.group.controller;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 import com.jyb.common.Result;
 import com.jyb.group.domain.Group;
 import com.jyb.group.domain.GroupParams;
@@ -35,18 +34,16 @@ public class GroupController {
 		} else {
 			//修改数据库用户组
 			groupService.updateGroupList(group);
-			FaceUtil.deleteUserList(group.getGroup_id());
-			FaceUtil.addUserList(group.getGroup_id());
+
 		}
 		return Result.success();
 	}
 
 	//删除group
-	@PostMapping("/deleteGroupList/#{group_id}")
+	@PostMapping("/deleteGroupList/{group_id}")
 	public Result deleteGroupList(@PathVariable String group_id) {
 		//删除数据库用户组
 		boolean b = groupService.deleteGroupList(group_id);
-		//删除百度用户组
 		FaceUtil.deleteUserList(group_id);
 		return Result.success(b);
 	}

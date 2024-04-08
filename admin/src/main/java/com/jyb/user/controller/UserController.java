@@ -31,9 +31,9 @@ public class UserController {
 	}
 
 	//查询个人信息
-	@GetMapping("/getPersonList/{user_name}")
-	public Result getPersonList(@PathVariable String user_name) {
-		User list = userService.getPersonList(user_name);
+	@GetMapping("/getPersonList")
+	public Result getPersonList(@RequestBody User user) {
+		User list = userService.getPersonList(user);
 		return Result.success(list);
 	}
 

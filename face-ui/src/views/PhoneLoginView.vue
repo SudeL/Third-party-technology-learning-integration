@@ -119,10 +119,8 @@ export default {
         submitForm() {
             this.$refs['elForm'].validate(valid => {
                 if (!valid) return
-                console.log(this.old);
-                console.log(this.formData);
-
                 if (this.old.code === this.formData.code && this.old.user_phone === this.formData.user_phone) {
+                  
                     this.$router.push('/HomeView')
                 } else {
                     alert("登录失败")
