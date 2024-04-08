@@ -6,8 +6,11 @@
         <el-descriptions-item label="用户ID">{{
           form.id
           }}</el-descriptions-item>
-        <el-descriptions-item label="头像">
-          <img :src="form.user_face_path ? form.user_face_path : '无'" style="max-width: 200px" /></el-descriptions-item>
+        <el-descriptions-item label="人脸认证图片">
+
+          <img :src="form.user_face_path ? '../../../file' + form.user_face_path : '无'" style="max-width: 200px" /></el-descriptions-item>
+        
+        
         <el-descriptions-item label="用户名">{{
           form.user_name
           }}</el-descriptions-item>
