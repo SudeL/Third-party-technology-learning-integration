@@ -73,7 +73,11 @@ export default {
                         this.old = res.data
                         console.log(this.old);
                     } else {
-
+                        this.$message({
+                            showClose: true,
+                            message: res.msg,
+                            type: 'error'
+                        });
                     }
                 }
             )
@@ -95,9 +99,9 @@ export default {
                 console.log(this.old);
                 console.log(this.formData);
 
-                if (this.old.code ===this.formData.code &&this.old.user_phone ===this.formData.user_phone) {
+                if (this.old.code === this.formData.code && this.old.user_phone === this.formData.user_phone) {
                     this.$router.push('/HomeView')
-                }else{
+                } else {
                     alert("登录失败")
                 }
             })

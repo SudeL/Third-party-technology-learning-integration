@@ -40,4 +40,8 @@ public interface UserInfoMapper {
 //通过use_id获取数据
 	@Select("select * from user_info where user_id = #{userId}")
 	List<User> getUserByUserID(String userId);
+//通过手机号码查询用户信息
+	@Select("select * from  user_info where user_phone = #{userPhone}")
+	List<User> queryByPhone(String userPhone);
+
 }

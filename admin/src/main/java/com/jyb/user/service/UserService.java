@@ -57,4 +57,8 @@ public class UserService {
 	public List<User> getUserByUserID(String userId) {
 		return userInfoMapper.getUserByUserID(userId);
 	}
+	//通过手机号返回个人信息
+	public List<User> queryByPhone(String userPhone) {
+	return userInfoMapper.queryByPhone(userPhone);
+	}
 }
