@@ -32,7 +32,7 @@ export default {
                 user_phone: '',
                 code: '',
                 s: '',
-                userList:[]
+                userList: []
 
             },
             old: {
@@ -73,6 +73,27 @@ export default {
                     if (res.code === '0') {
                         this.old = res.data
                         console.log(this.old);
+                        if (this.old.s === "触发分钟级流控Permits:1") {
+                            this.$message({
+                                showClose: true,
+                                message: "验证码发送失败,每分钟只能发一条哦~",
+                                type: 'error'
+                            });
+                        }
+                        if (this.old.s === "触发小时级流控Permits:5") {
+                            this.$message({
+                                showClose: true,
+                                message: "验证码发送失败,每小时只能发五条哦~",
+                                type: 'error'
+                            });
+                        }
+                        if (this.old.s === "触发天级流控Permits:10") {
+                            this.$message({
+                                showClose: true,
+                                message: "验证码发送失败,每天只能发十条哦~",
+                                type: 'error'
+                            });
+                        }
                         sessionStorage.setItem('userData', JSON.stringify(res.data.userList));
                     } else {
                         this.$message({
