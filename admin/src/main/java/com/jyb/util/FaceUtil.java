@@ -19,6 +19,7 @@ public class FaceUtil {
 	//人脸识别密钥
 
 
+
 	//查询分组
 	public static String queryGroup() {
 		try {
@@ -146,6 +147,7 @@ public class FaceUtil {
 
 	//更新人脸
 	public static String updateFace(String group_id, String path, String user_id) {
+
 		try {
 			MediaType mediaType = MediaType.parse("application/json");    // {"aa" : "aa" , "aaxx" : "xx"}
 			// image 可以通过 getFileContentAsBase64("path") 方法获取,如果Content-Type是application/x-www-form-urlencoded时,第二个参数传true

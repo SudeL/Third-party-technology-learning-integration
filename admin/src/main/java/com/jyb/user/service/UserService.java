@@ -38,10 +38,15 @@ public class UserService {
 	//修改数据库用户
 	public boolean updateUserList(User user) {
 		//修改百度用户
+		User login = userInfoMapper.Login(user);
+		System.out.println(login);
+		System.out.println("-------------------------------------------------------------");
 //		图片存储地址
 		String filePath = System.getProperty("user.dir") + "/file/";
-		filePath = filePath + user.getUser_phone();
-		FaceUtil.updateFace(user.getUser_group_id(),filePath,user.getUser_id());
+		filePath = filePath + user.getUser_face_path();
+
+		String s = FaceUtil.updateFace(login.getUser_group_id(), filePath, login.getUser_id());
+		System.out.println(s);
 		return userInfoMapper.updateUserList(user);
 	}
 
