@@ -30,6 +30,8 @@ public class GroupController {
 		if (group.getId() == null) {
 			//添加数据库用户组
 			groupService.addGroupList(group.getGroup_id());
+			//添加百度用户组
+			FaceUtil.addUserList(group.getGroup_id());
 		} else {
 			//修改数据库用户组
 			groupService.updateGroupList(group);

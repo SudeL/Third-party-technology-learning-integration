@@ -23,12 +23,8 @@
       <el-button type="warning" @click="reset()">清空</el-button>
       <el-button type="primary" @click="addUserList()">新增</el-button>
       <br><br>
-            <!-- Form -->
-            <el-dialog
-        title="用户组操作"
-        :visible.sync="dialogFormVisible"
-        width="30%"
-      >
+      <!-- Form -->
+      <el-dialog title="用户组操作" :visible.sync="dialogFormVisible" width="30%">
         <el-form :model="form">
           <el-form-item label="账号">
             <el-input v-model="form.user_name" autocomplete="off"></el-input>
@@ -63,6 +59,11 @@
         </el-table-column>
 
         <el-table-column prop="user_face_path" label="用户人脸">
+          <template slot-scope="scope">
+            <img
+              :src="scope.row.user_face_path ? 'http://localhost:8080/files/' + scope.row.user_face_path.split('~')[0] : '未人脸认证'"
+              style="width: 50px; height: 50px;" />
+          </template>
         </el-table-column>
 
         <el-table-column prop="user_isadmin" label="用户权限">
@@ -73,13 +74,8 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" @click="editUserList(scope.row)"
-              >编辑</el-button
-            >
-            <el-popconfirm
-              title="确定删除吗？"
-              @confirm="delUserList(scope.row.id)"
-            >
+            <el-button type="primary" @click="editUserList(scope.row)">编辑</el-button>
+            <el-popconfirm title="确定删除吗？" @confirm="delUserList(scope.row.id)">
               <el-button type="danger" slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
@@ -88,15 +84,9 @@
     </div>
 
     <div style="margin-top: 10px">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="params.pageNum"
-        :page-sizes="[5, 10, 15, 20]"
-        :page-size="params.pageSize"
-        layout="total,sizes, prev, pager, next"
-        :total="total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :current-page="params.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="params.pageSize"
+        layout="total,sizes, prev, pager, next" :total="total">
       </el-pagination>
     </div>
 
@@ -112,10 +102,10 @@ export default {
       dialogFormVisible: false,
       form: {},
       params: {
-        user_id:"",
-        user_name:"",
-        user_Group_id:"",
-        user_phone:"",
+        user_id: "",
+        user_name: "",
+        user_Group_id: "",
+        user_phone: "",
         pageNum: 1,
         pageSize: 5,
       },
@@ -144,10 +134,10 @@ export default {
 
     reset() {
       this.params = {
-        user_id:"",
-        user_name:"",
-        user_User_id:"",
-        user_phone:"",
+        user_id: "",
+        user_name: "",
+        user_User_id: "",
+        user_phone: "",
         pageNum: 1,
         pageSize: 5,
       };

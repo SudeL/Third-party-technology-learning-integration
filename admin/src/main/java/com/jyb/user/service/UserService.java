@@ -6,6 +6,7 @@ import com.jyb.common.Result;
 import com.jyb.user.domain.User;
 import com.jyb.user.domain.UserParams;
 import com.jyb.user.mapper.UserInfoMapper;
+import com.jyb.util.FaceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,11 @@ public class UserService {
 
 	//修改数据库用户
 	public boolean updateUserList(User user) {
+		//修改百度用户
+//		图片存储地址
+		String filePath = System.getProperty("user.dir") + "/file/";
+		filePath = filePath + user.getUser_phone();
+		FaceUtil.updateFace(user.getUser_group_id(),filePath,user.getUser_id());
 		return userInfoMapper.updateUserList(user);
 	}
 
